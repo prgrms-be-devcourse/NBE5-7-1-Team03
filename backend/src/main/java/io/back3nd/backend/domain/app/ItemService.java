@@ -3,6 +3,7 @@ package io.back3nd.backend.domain.app;
 import io.back3nd.backend.domain.dao.ItemsRepository;
 import io.back3nd.backend.domain.dto.ItemRequest;
 import io.back3nd.backend.domain.dto.ItemResponse;
+import io.back3nd.backend.domain.dto.SimpleItemResponse;
 import io.back3nd.backend.domain.entity.Items;
 import io.back3nd.backend.global.exception.DuplicatedNameException;
 import lombok.RequiredArgsConstructor;
@@ -39,13 +40,13 @@ public class ItemService {
                 .toList();
     }
 
-    public ItemResponse findItem(Long itemId) {
+    public SimpleItemResponse findItem(Long itemId) {
         Items item = itemsRepository.findById(itemId)
                 .orElseThrow(
                         () -> new NoSuchElementException("해당하는 상품을 찾을 수 없습니다.")
                 );
 
-        return ItemResponse.from(item);
+        return SimpleItemResponse.from(item);
     }
 
     public void updateItem(Long itemId, ItemRequest itemRequest) {

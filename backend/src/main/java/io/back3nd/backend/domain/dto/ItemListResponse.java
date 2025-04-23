@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import java.util.List;
 
+// 사용 중지
 @Getter
 public class ItemListResponse {
 
