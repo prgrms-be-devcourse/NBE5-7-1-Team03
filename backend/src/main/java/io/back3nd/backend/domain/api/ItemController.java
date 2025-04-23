@@ -26,10 +26,11 @@ public class ItemController {
             itemService.addItem(itemRequest);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest()
-                    .body(ItemMessageResponse
-                            .builder()
-                            .message(e.getMessage())
-                            .build()
+                    .body(
+                            ItemMessageResponse
+                                    .builder()
+                                    .message(e.getMessage())
+                                    .build()
                     );
         }
 
@@ -62,15 +63,15 @@ public class ItemController {
     @PutMapping("{itemId}")
     public ResponseEntity<ItemMessageResponse> updateItem(@PathVariable Long itemId, @RequestBody ItemRequest itemRequest) {
 
-
         try {
             itemService.updateItem(itemId, itemRequest);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest()
-                    .body(ItemMessageResponse
-                            .builder()
-                            .message(e.getMessage())
-                            .build()
+                    .body(
+                            ItemMessageResponse
+                                    .builder()
+                                    .message(e.getMessage())
+                                    .build()
                     );
         }
 
@@ -88,10 +89,11 @@ public class ItemController {
             itemService.deleteItem(itemId);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest()
-                    .body(ItemMessageResponse
-                            .builder()
-                            .message(e.getMessage())
-                            .build()
+                    .body(
+                            ItemMessageResponse
+                                    .builder()
+                                    .message(e.getMessage())
+                                    .build()
                     );
         }
 
