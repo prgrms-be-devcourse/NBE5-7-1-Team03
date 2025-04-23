@@ -5,7 +5,12 @@ import axios from 'axios';
 export default function ItemAdd(){
 
     const navigate = useNavigate();
-    const [form, setForm] = useState([]);
+    const [form, setForm] = useState({
+        name: '',
+        price: '',
+        stock: '',
+        imageUrl: 'a'
+    });
     const [image, setImage]=useState(null);
 
     const handleChange=(e) => {
@@ -16,19 +21,31 @@ export default function ItemAdd(){
         }));
     };
 
+    const handleImageChange = (e) => {
+        setImage(e.target.files[0]);
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post(`/items`, form)
+
+        const formData=new FormData();
+        const jsonBlob=new Blob([JSON.stringify(form)], {
+            type: 'application/json'
+        });
+
+        formData.append('item', jsonBlob);
+        formData.append('image', image);
+
+        axios.post(`/items`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
         .then(() => {
             alert('상품이 등록되었습니다!');
             navigate('/list');
         })
     };
-
-    const saveFile=()=> {
-        const formData=new FormData();
-        
-    }
 
     return (
         <div className="container">
@@ -79,10 +96,9 @@ export default function ItemAdd(){
                          <div className='form-group'>
                             <label className="form-label">상품 이미지</label>
                             <input type="file"
-                                name="imageUrl"
+                                name="image"
                                 className="form-control"
-                                value={form.imageUrl}
-                                onChange={handleChange}
+                                onChange={handleImageChange}
                             />
                          </div>
     

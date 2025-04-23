@@ -37,6 +37,7 @@ export default function ItemList() {
           <table className="table table-bordered">
             <thead>
               <tr>
+                <th>상품 이미지</th>
                 <th>이름</th>
                 <th>가격</th>
                 <th>재고</th>
@@ -47,6 +48,7 @@ export default function ItemList() {
             <tbody>
               {itemList.map((item) => (
                   <tr key={item.id}>
+                    <td><img src='https://media.istockphoto.com/id/2164167953/ko/%EC%82%AC%EC%A7%84/roasted-coffee-beans-in-air.jpg?s=1024x1024&w=is&k=20&c=jNoGwyfkkmoeKqcLSrTImMQJFZganP11V8Ui8igsjG4=' width="200" height="150" /></td>
                     <td>{item.name}</td>
                     <td>{item.price}</td>
                     <td>{item.stock}</td>
