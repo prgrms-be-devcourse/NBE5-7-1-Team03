@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -36,5 +38,13 @@ public class ItemService {
                 .stream()
                 .map(i -> ItemResponse.from(i))
                 .toList();
+    }
+
+    public ItemResponse findItem(Long itemId) {
+        Optional<Items> optionalItem = itemsRepository.findById(itemId);
+        Items item = optionalItem.orElseThrow(
+                () -> new NoSuchElementException("해당하는 상품을 찾을 수 없습니다.")
+        );
+        return ItemResponse.from(item);
     }
 }
