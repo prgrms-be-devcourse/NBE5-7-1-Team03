@@ -11,7 +11,7 @@ export default function ItemList() {
     }, []);
 
     const fetchItemList=()=>{
-        axios.get('')
+        axios.get('/items')
         .then((response) => {
           setItemList(response.data);  
         });
@@ -29,10 +29,10 @@ export default function ItemList() {
     return <div className="container">
     <h2 className="text-center mt-5 mb-3">메뉴 관리</h2>
       <div className="card">
-        {/* <div className="card-header">
-          <Link className="btn btn-outline-primary mx-1" to="/">Home</Link>
-          <Link className="btn btn-outline-primary mx-1" to="/add">Book 등록</Link>
-        </div> */}
+        <div className="card-header">
+          <Link className="btn btn-secondary mx-1" to="/">Home</Link>
+          <Link className="btn btn-dark mx-1" to="/add">상품 등록</Link>
+        </div>
         <div className="card-body">
           <table className="table table-bordered">
             <thead>
@@ -40,7 +40,7 @@ export default function ItemList() {
                 <th>이름</th>
                 <th>가격</th>
                 <th>재고</th>
-                <th width="220px">Action</th>
+                <th width="220px"></th>
               </tr>
             </thead>
 
@@ -51,8 +51,8 @@ export default function ItemList() {
                     <td>{item.price}</td>
                     <td>{item.stock}</td>
                     <td>
-                      <Link to={`/edit/${item.id}`} className="btn btn-outline-success mx-1">수정</Link>
-                      <button onClick={()=>handleDeleteConfirm(item.id)} className="btn btn-outline-danger mx-1">삭제</button>
+                      <Link to={`/edit/${item.id}`} className="btn btn-info mx-1">수정</Link>
+                      <button onClick={()=>handleDeleteConfirm(item.id)} className="btn btn-danger mx-1">삭제</button>
                     </td>
                   </tr>
               ))}

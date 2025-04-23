@@ -8,7 +8,7 @@ export default function BookEdit() {
     const [item, setItem]=useState([]);
 
     useEffect(() => {
-        axios.get(`/${id}`)
+        axios.get(`/items/${id}`)
             .then(response => {
                 setItem(response.data);
             })
@@ -26,10 +26,10 @@ export default function BookEdit() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.put(`/${id}`, item)
+        axios.put(`/items/${id}`, item)
             .then(() => {
                 alert("상품이 수정되었습니다.");
-                navigate('/');
+                navigate('/list');
             });
     };
 
