@@ -12,6 +12,7 @@ public class OrderRequest {
     private String zipcode;
     private List<Long> itemId;
 
+
     public OrderRequest(String email, String address, String zipcode, List<Long> itemId) {
         this.email = email;
         this.address = address;
