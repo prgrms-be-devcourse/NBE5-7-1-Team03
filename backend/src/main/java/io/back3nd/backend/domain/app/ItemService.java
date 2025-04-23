@@ -2,10 +2,13 @@ package io.back3nd.backend.domain.app;
 
 import io.back3nd.backend.domain.dao.ItemsRepository;
 import io.back3nd.backend.domain.dto.ItemRequest;
+import io.back3nd.backend.domain.dto.ItemResponse;
 import io.back3nd.backend.domain.entity.Items;
 import io.back3nd.backend.global.exception.DuplicatedNameException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,5 +29,12 @@ public class ItemService {
                 .build();
 
         itemsRepository.save(items);
+    }
+
+    public List<ItemResponse> findAll() {
+        return itemsRepository.findAll()
+                .stream()
+                .map(i -> ItemResponse.from(i))
+                .toList();
     }
 }

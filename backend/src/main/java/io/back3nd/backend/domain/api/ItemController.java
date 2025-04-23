@@ -1,6 +1,7 @@
 package io.back3nd.backend.domain.api;
 
 import io.back3nd.backend.domain.app.ItemService;
+import io.back3nd.backend.domain.dto.ItemListResponse;
 import io.back3nd.backend.domain.dto.ItemMessageResponse;
 import io.back3nd.backend.domain.dto.ItemRequest;
 import io.back3nd.backend.domain.dto.ItemResponse;
@@ -40,8 +41,14 @@ public class ItemController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ItemResponse>> getItems() {
-        return null;
+    public ResponseEntity<ItemListResponse> getItems() {
+
+        List<ItemResponse> itemList = itemService.findAll();
+        ItemListResponse items = ItemListResponse.builder()
+                .items(itemList)
+                .build();
+
+        return ResponseEntity.ok(items);
     }
 
     @DeleteMapping()
