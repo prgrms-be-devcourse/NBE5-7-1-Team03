@@ -61,4 +61,11 @@ public class ItemService {
 
         findItem.updateItem(itemRequest);
     }
+
+    public void deleteItem(Long itemId) {
+        Items findItem = itemsRepository.findById(itemId)
+                .orElseThrow(() -> new NoSuchElementException("해당하는 상품이 존재하지 않습니다."));
+
+        itemsRepository.delete(findItem);
+    }
 }
