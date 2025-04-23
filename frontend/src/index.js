@@ -3,8 +3,11 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+axios.defaults.baseURL="http://localhost:8080/items"
 root.render(
   <React.StrictMode>
     <App />

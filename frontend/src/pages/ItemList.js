@@ -1,0 +1,57 @@
+import React, { useState, useEffect} from 'react';
+import { Link } from "react-router-dom";
+import axios from 'axios';
+
+export default function ItemList() {
+    const [itemList, setItemList]=useState([]);
+
+    useEffect( () => {
+        fetchItemList()
+    }, []);
+
+    const fetchItemList=()=>{
+        axios.get('')
+        .then((response) => {
+          setItemList(response.data);  
+        });
+    };
+
+    return <div className="container">
+    <h2 className="text-center mt-5 mb-3">메뉴 관리</h2>
+      <div className="card">
+        {/* <div className="card-header">
+          <Link className="btn btn-outline-primary mx-1" to="/">Home</Link>
+          <Link className="btn btn-outline-primary mx-1" to="/add">Book 등록</Link>
+        </div> */}
+        <div className="card-body">
+          <table className="table table-bordered">
+            <thead>
+              <tr>
+                <th>이름</th>
+                <th>가격</th>
+                <th>재고</th>
+                <th width="220px">Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {itemList.map((item, key)=>{ //key를 item.id로 변경??
+                return (
+                  <tr key={key}>
+                    <td>{item.name}</td>
+                    <td>{item.price}</td>
+                    {/* <td>{item.stock}</td> */}
+                    {/* <td>
+                      <Link to={`/view/${item.id}`} className="btn btn-outline-info mx-1">조회</Link>
+                      <Link to={`/edit/${item.id}`} className="btn btn-outline-success mx-1">수정</Link>
+                      <button onClick={()=>handleDeleteConfirm(item.id)} className="btn btn-outline-danger mx-1">삭제</button>
+                    </td> */}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+}
