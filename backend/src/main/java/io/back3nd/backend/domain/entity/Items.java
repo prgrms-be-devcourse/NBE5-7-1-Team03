@@ -1,5 +1,6 @@
 package io.back3nd.backend.domain.entity;
 
+import io.back3nd.backend.domain.dto.ItemRequest;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,5 +36,13 @@ public class Items {
         this.price = price;
         this.stock = stock;
         this.imageUrl = imageUrl;
+    }
+
+    public void updateItem(ItemRequest itemRequest) {
+        this.name = itemRequest.getName();
+        this.price = itemRequest.getPrice();
+        this.stock = itemRequest.getStock();
+        this.imageUrl = itemRequest.getImageUrl();
+        this.updatedAt = LocalDateTime.now();
     }
 }

@@ -59,6 +59,28 @@ public class ItemController {
         return ResponseEntity.ok(items);
     }
 
+    @PutMapping("{itemId}")
+    public ResponseEntity<ItemMessageResponse> updateItem(@PathVariable Long itemId, @RequestBody ItemRequest itemRequest) {
+
+
+        try {
+            itemService.updateItem(itemId, itemRequest);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest()
+                    .body(ItemMessageResponse
+                            .builder()
+                            .message(e.getMessage())
+                            .build()
+                    );
+        }
+
+        ItemMessageResponse response = ItemMessageResponse.builder()
+                .message("상품이 업데이트 되었습니다.")
+                .build();
+
+        return ResponseEntity.ok(response);
+    }
+
     @DeleteMapping()
     public ResponseEntity<String> deleteItem(@PathVariable Long itemId) {
         return null;

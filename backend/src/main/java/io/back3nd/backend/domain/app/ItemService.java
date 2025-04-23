@@ -47,4 +47,18 @@ public class ItemService {
         );
         return ItemResponse.from(item);
     }
+
+    public void updateItem(Long itemId, ItemRequest itemRequest) {
+        Items findItem = itemsRepository.findById(itemId)
+                .orElseThrow(
+                        () -> new NoSuchElementException("해당하는 상품을 찾을 수 없습니다.")
+                );
+
+        if (!itemRequest.getName().equals(findItem.getName())
+                && itemsRepository.findByName(itemRequest.getName()).isPresent()) {
+            throw new DuplicatedNameException("이미 존재하는 상품명입니다.");
+        }
+
+        findItem.updateItem(itemRequest);
+    }
 }
