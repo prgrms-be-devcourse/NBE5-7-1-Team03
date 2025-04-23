@@ -1,6 +1,0 @@
-spring:
-  datasource:
-    url: "jdbc:mysql://localhost:3306/gc_coffee"
-    username:
-    password:
-    driver-class-name: com.mysql.cj.jdbc.Driver
