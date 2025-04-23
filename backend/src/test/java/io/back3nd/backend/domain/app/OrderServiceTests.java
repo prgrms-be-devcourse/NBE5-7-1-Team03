@@ -3,6 +3,8 @@ package io.back3nd.backend.domain.app;
 import io.back3nd.backend.domain.dao.OrdersRepository;
 import io.back3nd.backend.domain.dto.OrderRequest;
 import io.back3nd.backend.domain.dto.OrderResponse;
+import io.back3nd.backend.domain.entity.Orders;
+import io.back3nd.backend.domain.entity.Status;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -77,5 +79,23 @@ class OrderServiceTests {
                     orderService.getOrder(invalidId);
                 }
         ).isInstanceOf(NoSuchElementException.class);
+    }
+
+    @Test
+    @DisplayName("주문 삭제(취소) 테스트")
+    void deleteOrdersTests() throws Exception {
+        OrderRequest request = new OrderRequest(
+                "exmple3@example.com",
+                "취소할건데 주소 알아서 뭐하게요",
+                "44444",
+                List.of(1L,3L,5L)
+        );
+        OrderResponse created = orderService.doOrder(request);
+
+        orderService.deleteOrder(created.getId());
+
+        Orders cancelled = ordersRepository.findById(created.getId()).orElseThrow();
+
+        assertThat(cancelled.getStatus()).isEqualTo(Status.CANCELLED);
     }
 }
