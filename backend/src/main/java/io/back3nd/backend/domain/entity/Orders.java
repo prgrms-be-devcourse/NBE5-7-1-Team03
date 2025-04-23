@@ -2,6 +2,7 @@ package io.back3nd.backend.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,9 +24,17 @@ public class Orders {
 
     private String zipcode;
 
-    private Status status;
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.RECEIVED;
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
     private LocalDateTime updatedAt = LocalDateTime.now(); //아직 구현하지는 않을 예정
+
+    @Builder
+    public Orders(String email, String address, String zipcode) {
+        this.email = email;
+        this.address = address;
+        this.zipcode = zipcode;
+    }
 }

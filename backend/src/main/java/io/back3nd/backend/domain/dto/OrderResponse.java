@@ -4,8 +4,6 @@ import io.back3nd.backend.domain.entity.Orders;
 import io.back3nd.backend.domain.entity.Status;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
-
 @Getter
 public class OrderResponse {
 
