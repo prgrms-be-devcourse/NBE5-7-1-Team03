@@ -24,25 +24,27 @@ public class Items {
 
     private int stock;
 
-    private String imageUrl;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name="image_file_id")
+    private ImageFiles imageFile;
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
     private LocalDateTime updatedAt = LocalDateTime.now();
 
     @Builder
-    public Items(String name, int price, int stock, String imageUrl) {
+    public Items(String name, int price, int stock, ImageFiles imageFile) {
         this.name = name;
         this.price = price;
         this.stock = stock;
-        this.imageUrl = imageUrl;
+        this.imageFile=imageFile;
     }
 
-    public void updateItem(ItemRequest itemRequest) {
+    public void updateItem(ItemRequest itemRequest, ImageFiles imageFile) {
         this.name = itemRequest.getName();
         this.price = itemRequest.getPrice();
         this.stock = itemRequest.getStock();
-        this.imageUrl = itemRequest.getImageUrl();
+        this.imageFile=imageFile;
         this.updatedAt = LocalDateTime.now();
     }
 }

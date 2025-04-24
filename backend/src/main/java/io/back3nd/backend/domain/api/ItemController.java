@@ -1,14 +1,22 @@
 package io.back3nd.backend.domain.api;
 
+import io.back3nd.backend.domain.app.ImageFileService;
 import io.back3nd.backend.domain.app.ItemService;
 import io.back3nd.backend.domain.dto.ItemRequest;
 import io.back3nd.backend.domain.dto.ItemResponse;
 import io.back3nd.backend.domain.dto.SimpleItemResponse;
+import io.back3nd.backend.domain.entity.ImageFiles;
 import io.back3nd.backend.global.common.CommonResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
 
 import static io.back3nd.backend.global.common.StatusCode.*;
@@ -20,11 +28,14 @@ import static io.back3nd.backend.global.common.StatusCode.*;
 public class ItemController {
 
     private final ItemService itemService;
+    private final ImageFileService imageFileService;
 
-    @PostMapping
-    public ResponseEntity<CommonResponse<Object>> createItem(@RequestBody ItemRequest itemRequest) {
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<CommonResponse<Object>> createItem(@RequestPart("item") ItemRequest itemRequest,
+                                                             @RequestPart("image") MultipartFile image) throws IOException {
 
-        itemService.addItem(itemRequest);
+        ImageFiles imageFile = imageFileService.storeFile(image);
+        itemService.addItem(itemRequest, imageFile);
 
         return ResponseEntity.status(ITEM_CREATED.getStatus())
                 .body(CommonResponse.from(ITEM_CREATED.getMessage()));
@@ -48,10 +59,13 @@ public class ItemController {
                 .body(CommonResponse.from(ITEM_FOUND.getMessage(),itemList));
     }
 
-    @PutMapping("{itemId}")
-    public ResponseEntity<CommonResponse<Object>> updateItem(@PathVariable Long itemId, @RequestBody ItemRequest itemRequest) {
+    @PutMapping(path="{itemId}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<CommonResponse<Object>> updateItem(@PathVariable Long itemId,
+                                                             @RequestPart("item") ItemRequest itemRequest,
+                                                             @RequestPart("image") MultipartFile image) throws IOException {
 
-        itemService.updateItem(itemId, itemRequest);
+        ImageFiles imageFile = imageFileService.storeFile(image);
+        itemService.updateItem(itemId, itemRequest, imageFile);
 
         return ResponseEntity.status(ITEM_UPDATED.getStatus())
                 .body(CommonResponse.from(ITEM_UPDATED.getMessage()));
@@ -64,6 +78,11 @@ public class ItemController {
 
         return ResponseEntity.status(ITEM_DELETE.getStatus())
                 .body(CommonResponse.from(ITEM_DELETE.getMessage()));
+    }
+
+    @GetMapping("/images/{filename}")
+    public Resource showImage(@PathVariable("filename") String filename) throws MalformedURLException {
+        return new UrlResource("file:"+imageFileService.getFullPath(filename));
     }
 }
 

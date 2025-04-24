@@ -11,5 +11,4 @@ public class ItemRequest {
 
     private int stock;
 
-    private String imageUrl;
 }

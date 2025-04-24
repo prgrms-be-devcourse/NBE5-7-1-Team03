@@ -13,14 +13,14 @@ public class SimpleItemResponse {
 
     private int stock;
 
-    private String imageUrl;
+    private String storeFileName;
 
     @Builder
-    public SimpleItemResponse(String name, int price, int stock, String imageUrl) {
+    public SimpleItemResponse(String name, int price, int stock, String storeFileName) {
         this.name = name;
         this.price = price;
         this.stock = stock;
-        this.imageUrl = imageUrl;
+        this.storeFileName = storeFileName;
     }
 
     public static SimpleItemResponse from(Items item) {
@@ -28,7 +28,7 @@ public class SimpleItemResponse {
                 .name(item.getName())
                 .price(item.getPrice())
                 .stock(item.getStock())
-                .imageUrl(item.getImageUrl())
+                .storeFileName(item.getImageFile().getStoreFileName())
                 .build();
     }
 }
