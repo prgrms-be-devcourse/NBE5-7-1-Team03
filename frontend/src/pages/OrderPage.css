@@ -1,0 +1,83 @@
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body {
+  background-color: aliceblue;
+}
+
+h2 {
+  font-weight: bold;
+  font-size: 2rem;
+  color: #222;
+}
+
+.card {
+  background-color: skyblue;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+  margin-bottom: 1.5rem; 
+}
+
+.card .fw-bold {
+  font-size: 1rem;
+}
+
+.btn-outline-dark {
+  font-size: 0.9rem;
+  padding: 6px 14px;
+  border-color: #666;
+  color: #333;
+}
+.btn-outline-dark:hover {
+  background-color: #444;
+  color: #fff;
+}
+
+.btn-dark {
+  border-radius: 10px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.btn-dark:hover {
+  background-color: #333;
+}
+
+input.form-control {
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+input.form-control:focus {
+  border-color: #555;
+  box-shadow: none;
+}
+
+.border.p-3.mb-3 {
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.badge.bg-dark {
+  font-size: 0.8rem;
+  padding: 5px 10px;
+  border-radius: 12px;
+}
+
+.item-horizontal {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn-group-inline {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.summary-item {
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #ccc;
+}
