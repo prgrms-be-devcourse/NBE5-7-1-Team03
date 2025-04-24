@@ -10,12 +10,23 @@ public class OrderRequest {
     private String email;
     private String address;
     private String zipcode;
-    private List<Long> itemId;
+    private List<OrderItemRequest> orderItems;
 
-    public OrderRequest(String email, String address, String zipcode, List<Long> itemId) {
+    public OrderRequest(String email, String address, String zipcode, List<OrderItemRequest> orderItems) {
         this.email = email;
         this.address = address;
         this.zipcode = zipcode;
-        this.itemId = itemId;
+        this.orderItems = orderItems;
+    }
+
+    @Getter
+    public static class OrderItemRequest {
+        private Long itemId;
+        private int quantity;
+
+        public OrderItemRequest(Long itemId, int quantity) {
+            this.itemId = itemId;
+            this.quantity = quantity;
+        }
     }
 }

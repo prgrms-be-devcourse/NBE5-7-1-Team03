@@ -8,12 +8,14 @@ import io.back3nd.backend.domain.entity.Items;
 import io.back3nd.backend.global.exception.DuplicatedNameException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ItemService {
 
     private final ItemsRepository itemsRepository;

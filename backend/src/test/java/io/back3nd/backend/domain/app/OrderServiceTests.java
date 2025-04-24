@@ -35,7 +35,11 @@ class OrderServiceTests {
                 "example@example.com",
                 "인천광역시 연수구",
                 "12345",
-                List.of(1L,2L,3L)
+                List.of(
+                        new OrderRequest.OrderItemRequest(1L, 1),
+                        new OrderRequest.OrderItemRequest(2L, 2),
+                        new OrderRequest.OrderItemRequest(3L, 3)
+                )
         );
 
         OrderResponse orderResponse = orderService.doOrder(request);
@@ -56,7 +60,11 @@ class OrderServiceTests {
                 "exmple2@example.com",
                 "이 편지는 영국에서부터 시작되어...",
                 "67890",
-                List.of(4L, 5L)
+                List.of(
+                        new OrderRequest.OrderItemRequest(1L, 1),
+                        new OrderRequest.OrderItemRequest(2L, 2),
+                        new OrderRequest.OrderItemRequest(3L, 3)
+                )
         );
         OrderResponse created = orderService.doOrder(request);
 
@@ -88,7 +96,11 @@ class OrderServiceTests {
                 "exmple3@example.com",
                 "취소할건데 주소 알아서 뭐하게요",
                 "44444",
-                List.of(1L,3L,5L)
+                List.of(
+                        new OrderRequest.OrderItemRequest(1L, 1),
+                        new OrderRequest.OrderItemRequest(2L, 2),
+                        new OrderRequest.OrderItemRequest(3L, 3)
+                )
         );
         OrderResponse created = orderService.doOrder(request);
 

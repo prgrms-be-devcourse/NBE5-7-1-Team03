@@ -1,15 +1,17 @@
 package io.back3nd.backend.domain.api;
 
 import io.back3nd.backend.domain.app.ItemService;
-import io.back3nd.backend.domain.dto.ItemMessageResponse;
 import io.back3nd.backend.domain.dto.ItemRequest;
 import io.back3nd.backend.domain.dto.ItemResponse;
 import io.back3nd.backend.domain.dto.SimpleItemResponse;
+import io.back3nd.backend.global.common.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static io.back3nd.backend.global.common.StatusCode.*;
 
 @RestController
 @RequestMapping("/items")
@@ -20,85 +22,48 @@ public class ItemController {
     private final ItemService itemService;
 
     @PostMapping
-    public ResponseEntity<ItemMessageResponse> createItem(@RequestBody ItemRequest itemRequest) {
+    public ResponseEntity<CommonResponse<Object>> createItem(@RequestBody ItemRequest itemRequest) {
 
-        try {
-            itemService.addItem(itemRequest);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest()
-                    .body(
-                            ItemMessageResponse
-                                    .builder()
-                                    .message(e.getMessage())
-                                    .build()
-                    );
-        }
+        itemService.addItem(itemRequest);
 
-        ItemMessageResponse response = ItemMessageResponse.builder()
-                .message("상품이 등록 되었습니다.")
-                .build();
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(ITEM_CREATED.getStatus())
+                .body(CommonResponse.from(ITEM_CREATED.getMessage()));
     }
 
     @GetMapping("/{itemId}")
-    public ResponseEntity<SimpleItemResponse> getItem(@PathVariable Long itemId) {
+    public ResponseEntity<CommonResponse<SimpleItemResponse>> getItem(@PathVariable Long itemId) {
 
         SimpleItemResponse item = itemService.findItem(itemId);
 
-        return ResponseEntity.ok(item);
+        return ResponseEntity.status(ITEM_FOUND.getStatus())
+                .body(CommonResponse.from(ITEM_FOUND.getMessage(), item));
     }
 
     @GetMapping
-    public ResponseEntity<List<ItemResponse>> getItems() {
+    public ResponseEntity<CommonResponse<List<ItemResponse>>> getItems() {
 
         List<ItemResponse> itemList = itemService.findAll();
 
-        return ResponseEntity.ok(itemList);
+        return ResponseEntity.status(ITEM_FOUND.getStatus())
+                .body(CommonResponse.from(ITEM_FOUND.getMessage(),itemList));
     }
 
     @PutMapping("{itemId}")
-    public ResponseEntity<ItemMessageResponse> updateItem(@PathVariable Long itemId, @RequestBody ItemRequest itemRequest) {
+    public ResponseEntity<CommonResponse<Object>> updateItem(@PathVariable Long itemId, @RequestBody ItemRequest itemRequest) {
 
-        try {
-            itemService.updateItem(itemId, itemRequest);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest()
-                    .body(
-                            ItemMessageResponse
-                                    .builder()
-                                    .message(e.getMessage())
-                                    .build()
-                    );
-        }
+        itemService.updateItem(itemId, itemRequest);
 
-        ItemMessageResponse response = ItemMessageResponse.builder()
-                .message("상품이 업데이트 되었습니다.")
-                .build();
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(ITEM_UPDATED.getStatus())
+                .body(CommonResponse.from(ITEM_UPDATED.getMessage()));
     }
 
     @DeleteMapping("/{itemId}")
-    public ResponseEntity<ItemMessageResponse> deleteItem(@PathVariable Long itemId) {
+    public ResponseEntity<CommonResponse<Object>> deleteItem(@PathVariable Long itemId) {
 
-        try {
-            itemService.deleteItem(itemId);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest()
-                    .body(
-                            ItemMessageResponse
-                                    .builder()
-                                    .message(e.getMessage())
-                                    .build()
-                    );
-        }
+         itemService.deleteItem(itemId);
 
-        ItemMessageResponse response = ItemMessageResponse.builder()
-                .message("상품이 삭제 되었습니다.")
-                .build();
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(ITEM_DELETE.getStatus())
+                .body(CommonResponse.from(ITEM_DELETE.getMessage()));
     }
 }
 

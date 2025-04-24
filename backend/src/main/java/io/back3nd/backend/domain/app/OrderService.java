@@ -9,12 +9,14 @@ import io.back3nd.backend.global.exception.InvalidOrderException;
 import io.back3nd.backend.global.exception.InvalidOrderStateException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class OrderService {
 
     private final OrdersRepository ordersRepository;
