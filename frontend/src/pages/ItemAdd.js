@@ -7,8 +7,7 @@ export default function ItemAdd() {
   const [form, setForm] = useState({
     name: '',
     price: '',
-    stock: '',
-    imageUrl: 'a',
+    stock: ''
   });
   const [image, setImage] = useState(null);
 
@@ -99,7 +98,7 @@ export default function ItemAdd() {
 
             <div className="form-group">
               <label className="form-label">상품 이미지</label>
-              <input type="file" name="image" className="form-control" onChange={handleImageChange} />
+              <input type="file" name="image" className="form-control" onChange={handleImageChange} required />
             </div>
 
             <div className="text-center mt-3">

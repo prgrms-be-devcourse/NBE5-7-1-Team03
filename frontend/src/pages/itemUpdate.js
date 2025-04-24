@@ -6,10 +6,11 @@ export default function ItemUpdate() {
   const { id } = useParams(); //url에서 id 추출
   const navigate = useNavigate();
   const [item, setItem] = useState([]);
+  const [image, setImage] = useState(null);
 
   useEffect(() => {
     axios.get(`/items/${id}`).then(response => {
-      setItem(response.data);
+      setItem(response.data.response);
     });
   }, [id]);
 
@@ -23,12 +24,31 @@ export default function ItemUpdate() {
     }));
   };
 
+  const handleImageChange = e => {
+    setImage(e.target.files[0]);
+  };
+
   const handleSubmit = e => {
     e.preventDefault();
-    axios.put(`/items/${id}`, item).then(() => {
-      alert('상품이 수정되었습니다.');
-      navigate('/admin');
+
+    const formData = new FormData();
+    const jsonBlob = new Blob([JSON.stringify(item)], {
+      type: 'application/json',
     });
+
+    formData.append('item', jsonBlob);
+    formData.append('image', image);
+
+    axios
+      .put(`/items/${id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      .then(() => {
+        alert('상품이 수정되었습니다');
+        navigate('/admin');
+      });
   };
 
   return (
@@ -81,14 +101,16 @@ export default function ItemUpdate() {
               />
             </div>
 
-            {/* <div className='form-group'>
-                            <label className="form-label">상품 이미지</label>
-                            <input type="file"
-                                name="image"
-                                className="form-control"
-                                onChange={handleImageChange}
-                            />
-                            </div> */}
+            <div className='form-group'>
+                <label className="form-label">상품 이미지</label>
+                <input
+                  type="file" 
+                  name="image"
+                  className="form-control"
+                  onChange={handleImageChange}
+                  required
+                />
+            </div>
 
             <div className="text-center mt-3">
               <button type="submit" className="btn btn-info">
@@ -99,47 +121,5 @@ export default function ItemUpdate() {
         </div>
       </div>
     </div>
-
-    // <div className="container p-4">
-    //   <h2>상품 수정</h2>
-    //   <form onSubmit={handleSubmit}>
-    //     <div className="mb-3">
-    //       <label className="form-label">이름</label>
-    //       <input
-    //         type="text"
-    //         className="form-control"
-    //         name="name"
-    //         value={item.name}
-    //         onChange={handleChange}
-    //         required
-    //       />
-    //     </div>
-
-    //     <div className="mb-3">
-    //       <label className="form-label">가격</label>
-    //       <input
-    //         type="text"
-    //         className="form-control"
-    //         name="price"
-    //         value={item.price}
-    //         onChange={handleChange}
-    //         required
-    //       />
-    //     </div>
-
-    //     <div className="mb-3">
-    //       <label className="form-label">재고</label>
-    //       <input
-    //         type="text"
-    //         className="form-control"
-    //         name="stock"
-    //         value={item.stock}
-    //         onChange={handleChange}
-    //         required
-    //       />
-    //     </div>
-    //     <button type="submit" className="btn btn-primary">저장</button>
-    //   </form>
-    // </div>
   );
 }
