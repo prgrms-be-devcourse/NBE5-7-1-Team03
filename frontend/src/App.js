@@ -11,9 +11,9 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Home/>}/>
-        <Route path="/list" element={<ItemList/>} />
-        <Route path="/edit/:id" element={<ItemUpdate/>}/>
-        <Route path="/add" element={<ItemAdd/>} />
+        <Route path="/admin" element={<ItemList/>} />
+        <Route path="/admin/edit/:id" element={<ItemUpdate/>}/>
+        <Route path="/admin/add" element={<ItemAdd/>} />
       </Routes>
     </BrowserRouter>
   );

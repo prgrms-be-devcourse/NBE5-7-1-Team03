@@ -43,7 +43,7 @@ export default function ItemAdd(){
         })
         .then(() => {
             alert('상품이 등록되었습니다!');
-            navigate('/list');
+            navigate('/admin');
         })
     };
 
@@ -52,8 +52,8 @@ export default function ItemAdd(){
             <h2 className="text-center mt-5 mb-3">메뉴 관리</h2>
             <div className="card">
                 <div className="card-header">
-                <Link className="btn btn-secondary mx-1" to="/">Home</Link>
-                <Link className="btn btn-dark mx-1" to="/add">상품 등록</Link>
+                <Link className="btn btn-secondary mx-1" to="/admin">목록</Link>
+                <Link className="btn btn-dark mx-1" to="/admin/add">상품 등록</Link>
                 </div>
                 <div className="card-body d-flex justify-content-center">
                     <form onSubmit={handleSubmit} className="w-50">

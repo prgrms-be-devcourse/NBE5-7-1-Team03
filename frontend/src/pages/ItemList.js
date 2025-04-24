@@ -31,7 +31,7 @@ export default function ItemList() {
       <div className="card">
         <div className="card-header">
           <Link className="btn btn-secondary mx-1" to="/">Home</Link>
-          <Link className="btn btn-dark mx-1" to="/add">상품 등록</Link>
+          <Link className="btn btn-dark mx-1" to="/admin/add">상품 등록</Link>
         </div>
         <div className="card-body">
           <table className="table table-bordered">
@@ -53,7 +53,7 @@ export default function ItemList() {
                     <td>{item.price}</td>
                     <td>{item.stock}</td>
                     <td>
-                      <Link to={`/edit/${item.id}`} className="btn btn-info mx-1">수정</Link>
+                      <Link to={`/admin/edit/${item.id}`} className="btn btn-info mx-1">수정</Link>
                       <button onClick={()=>handleDeleteConfirm(item.id)} className="btn btn-danger mx-1">삭제</button>
                     </td>
                   </tr>

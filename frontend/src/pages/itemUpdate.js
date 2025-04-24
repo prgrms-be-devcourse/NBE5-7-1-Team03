@@ -29,7 +29,7 @@ export default function ItemUpdate() {
         axios.put(`/items/${id}`, item)
             .then(() => {
                 alert("상품이 수정되었습니다.");
-                navigate('/list');
+                navigate('/admin');
             });
     };
 
@@ -38,8 +38,8 @@ export default function ItemUpdate() {
             <h2 className="text-center mt-5 mb-3">메뉴 관리</h2>
             <div className="card">
                 <div className="card-header">
-                <Link className="btn btn-secondary mx-1" to="/">Home</Link>
-                <Link className="btn btn-dark mx-1" to="/add">상품 수정</Link>
+                <Link className="btn btn-secondary mx-1" to="/admin">목록</Link>
+                <Link className="btn btn-dark mx-1" to="/admin/add">상품 등록</Link>
                 </div>
                 <div className="card-body d-flex justify-content-center">
                     <form onSubmit={handleSubmit} className="w-50">
