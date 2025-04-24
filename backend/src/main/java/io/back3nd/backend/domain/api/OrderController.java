@@ -27,14 +27,16 @@ public class OrderController {
     @GetMapping("/orders/{id}")
     public ResponseEntity<CommonResponse<OrderResponse>> getOrder(
             @PathVariable Long id) {
-        return ResponseEntity.ok(CommonResponse.from(ORDER_FOUND.getMessage(), orderService.getOrder(id)));
+        return ResponseEntity.status(ORDER_FOUND.getStatus())
+                .body(CommonResponse.from(ORDER_FOUND.getMessage(), orderService.getOrder(id)));
     }
 
     @DeleteMapping("/orders/{id}")
     public ResponseEntity<CommonResponse<Object>> deleteOrder(
             @PathVariable Long id) {
         orderService.deleteOrder(id);
-        return ResponseEntity.ok(CommonResponse.from(ORDER_DELETE.getMessage(), orderService.getOrder(id)));
+        return ResponseEntity.status(ORDER_DELETE.getStatus())
+                .body(CommonResponse.from(ORDER_DELETE.getMessage(), orderService.getOrder(id)));
     }
 }
 
