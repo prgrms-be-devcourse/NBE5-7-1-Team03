@@ -15,7 +15,7 @@ function OrderPage() {
     axios
       .get('/items')
       .then(res => {
-        setProducts(res.data);
+        setProducts(res.data.response);
       })
       .catch(err => {
         console.log('상품 목록을 불러오는 데 실패했습니다:', err);
