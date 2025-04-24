@@ -12,15 +12,10 @@ import static io.back3nd.backend.global.common.StatusCode.*;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class OrderController {
 
     private final OrderService orderService;
-
-//    @PostMapping("/orders")
-//    public ResponseEntity<OrderResponse> doOrder(@RequestBody OrderRequest orderRequest) {
-//        OrderResponse orderResponse = orderService.doOrder(orderRequest);
-//        return ResponseEntity.ok(orderResponse);
-//    }
 
     @PostMapping("/orders")
     public ResponseEntity<CommonResponse<OrderResponse>> doOrder(
@@ -42,3 +37,4 @@ public class OrderController {
         return ResponseEntity.ok(CommonResponse.from(ORDER_DELETE.getMessage(), orderService.getOrder(id)));
     }
 }
+
