@@ -14,6 +14,7 @@ function App() {
         <Route path="/admin" element={<ItemList/>} />
         <Route path="/admin/edit/:id" element={<ItemUpdate/>}/>
         <Route path="/admin/add" element={<ItemAdd/>} />
+        <Route path="/orders" element={<OrderPage />} />
       </Routes>
     </BrowserRouter>
   );
