@@ -7,12 +7,14 @@ import io.back3nd.backend.domain.entity.Orders;
 import io.back3nd.backend.domain.entity.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class OrderService {
 
     private final OrdersRepository ordersRepository;
