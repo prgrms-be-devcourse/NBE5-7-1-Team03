@@ -16,10 +16,13 @@ public class Orders {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NonNull
     private String email;
 
+    @NonNull
     private String address;
 
+    @NonNull
     private String zipcode;
 
     @Enumerated(EnumType.STRING)
