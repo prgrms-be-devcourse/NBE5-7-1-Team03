@@ -34,7 +34,7 @@ public class OrderController {
     public ResponseEntity<CommonResponse<Object>> deleteOrder(
             @PathVariable Long id) {
         orderService.deleteOrder(id);
-        return ResponseEntity.ok(CommonResponse.from(ORDER_DELETE.getMessage(), orderService.getOrder(id)));
+        return ResponseEntity.ok(CommonResponse.from(ORDER_DELETE.getMessage()));
     }
 }
 
