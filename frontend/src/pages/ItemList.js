@@ -11,7 +11,7 @@ export default function ItemList() {
   }, []);
 
   const fetchItemList = () => {
-    axios.get('/items').then(response => {
+      axios.get('/items').then(response => {
       setItemList(response.data.response);
     });
   };
