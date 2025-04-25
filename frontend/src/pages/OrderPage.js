@@ -101,33 +101,34 @@ function OrderPage() {
             <strong>상품 목록</strong>
           </h5>
           <div className="card p-3">
-            {products.map(product => (
-              <div key={product.id} className="d-flex align-items-center justify-content-between border-bottom py-2">
-                <div className="d-flex align-items-center gap-3">
-                  <img
-                    src={`http://localhost:8080/items/images/${product.storeFileName}`}
-                    alt="상품 이미지"
-                    className="rounded"
-                    style={{ width: '80px', height: '80px', objectFit: 'cover' }}
-                  />
-                  <div>
-                    <div className="fw-bold">{product.name}</div>
-                    <div>{product.price}원</div>
-                    <div className="text-muted">
-                      재고: {product.stock - (orderItems.find(i => i.itemId === product.id)?.quantity || 0)}
+            {products &&
+              products.map(product => (
+                <div key={product.id} className="d-flex align-items-center justify-content-between border-bottom py-2">
+                  <div className="d-flex align-items-center gap-3">
+                    <img
+                      src={`http://localhost:8080/items/images/${product.storeFileName}`}
+                      alt="상품 이미지"
+                      className="rounded"
+                      style={{ width: '80px', height: '80px', objectFit: 'cover' }}
+                    />
+                    <div>
+                      <div className="fw-bold">{product.name}</div>
+                      <div>{product.price}원</div>
+                      <div className="text-muted">
+                        재고: {product.stock - (orderItems.find(i => i.itemId === product.id)?.quantity || 0)}
+                      </div>
                     </div>
                   </div>
+                  <div className="d-flex gap-2">
+                    <button className="btn btn-primary btn-sm" onClick={() => handleAddItem(product)}>
+                      추가
+                    </button>
+                    <button className="btn btn-danger btn-sm" onClick={() => handleRemoveItem(product)}>
+                      삭제
+                    </button>
+                  </div>
                 </div>
-                <div className="d-flex gap-2">
-                  <button className="btn btn-primary btn-sm" onClick={() => handleAddItem(product)}>
-                    추가
-                  </button>
-                  <button className="btn btn-danger btn-sm" onClick={() => handleRemoveItem(product)}>
-                    삭제
-                  </button>
-                </div>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
 
@@ -136,12 +137,13 @@ function OrderPage() {
             <strong>Summary</strong>
           </h5>
           <div className="border p-3 mb-3">
-            {orderItems.map(item => (
-              <div key={item.id} className="mb-3 border-bottom pb-2">
-                <div className="fw-semibold">{item.name}</div>
-                <div>수량: {item.quantity}개</div>
-              </div>
-            ))}
+            {orderItems &&
+              orderItems.map(item => (
+                <div key={item.id} className="mb-3 border-bottom pb-2">
+                  <div className="fw-semibold">{item.name}</div>
+                  <div>수량: {item.quantity}개</div>
+                </div>
+              ))}
           </div>
           <form onSubmit={handleSubmit}>
             <input

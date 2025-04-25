@@ -15,13 +15,15 @@ import java.util.List;
 public class UserResponse {
 
     private String email;
+    private Role role;
     private LocalDateTime createdAt;
-    private List<Orders> orders=new ArrayList<>();
+    private List<Orders> orders = new ArrayList<>();
 
     @Builder
-    public UserResponse(String email, LocalDateTime createdAt, List<Orders> orders) {
+    public UserResponse(String email, Role role, LocalDateTime createdAt, List<Orders> orders) {
         this.email = email;
+        this.role = role;
         this.createdAt = createdAt;
-        this.orders=orders;
+        this.orders = orders;
     }
 }
