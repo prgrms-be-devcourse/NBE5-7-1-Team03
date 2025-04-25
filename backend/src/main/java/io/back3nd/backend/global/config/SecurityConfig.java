@@ -1,6 +1,7 @@
 package io.back3nd.backend.global.config;
 
 import io.back3nd.backend.domain.entity.Role;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -23,6 +24,12 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .formLogin(form -> form
                         .usernameParameter("email")
+                        .failureHandler((request, response, exception) -> {
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.setCharacterEncoding("UTF-8");
+                            response.setContentType("application/json; charset=UTF-8");
+                            response.getWriter().write("{\"message\": \"로그인 실패, " + exception.getMessage() + "\"}");
+                        })
                 )
                 .logout(logout -> logout
                         .logoutSuccessUrl("/"))
