@@ -5,7 +5,7 @@ import axios from 'axios';
 export default function SignUp() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    nickName: '',
+    nickname: '',
     email: '',
     password: '',
   });
@@ -42,9 +42,9 @@ export default function SignUp() {
               <label className="form-label">닉네임</label>
               <input
                 type="text"
-                name="nickName"
+                name="nickname"
                 className="form-control"
-                value={formData.nickName}
+                value={formData.nickname}
                 onChange={handleChange}
                 required
               />
