@@ -31,15 +31,15 @@ public class UserController {
         userService.signUp(request);
 
         return ResponseEntity.status(USER_CREATED.getStatus())
-                        .body(CommonResponse.from(
-                                USER_CREATED.getMessage()
-                        ));
+                .body(CommonResponse.from(
+                        USER_CREATED.getMessage()
+                ));
     }
 
     @GetMapping("/user/info")
-    public ResponseEntity<CommonResponse<UserResponse>> findUser(@AuthenticationPrincipal UserDetailsImpl user){
+    public ResponseEntity<CommonResponse<UserResponse>> findUser(@AuthenticationPrincipal UserDetailsImpl user) {
 
-        if(user==null){
+        if (user == null) {
             throw new CustomException("로그인을 해주세요.");
         }
 

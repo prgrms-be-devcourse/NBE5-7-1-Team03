@@ -19,7 +19,7 @@ public class UserService {
     private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void signUp(SignUpRequest request){
+    public void signUp(SignUpRequest request) {
         validate(request);
 
         Users newUser = Users.builder()
@@ -38,16 +38,17 @@ public class UserService {
 
         return UserResponse.builder()
                 .email(findUser.getEmail())
+                .role(findUser.getRole())
                 .createdAt(findUser.getCreatedAt())
                 .orders(findUser.getOrders())
                 .build();
     }
 
-    private void validate(SignUpRequest request){
-        if(usersRepository.existsByEmail(request.getEmail())){
+    private void validate(SignUpRequest request) {
+        if (usersRepository.existsByEmail(request.getEmail())) {
             throw new InvalidSignUpException("이미 사용 중인 이메일 입니다.");
         }
-        if(usersRepository.existsByNickname(request.getNickname())){
+        if (usersRepository.existsByNickname(request.getNickname())) {
             throw new InvalidSignUpException("이미 사용 중인 닉네임 입니다.");
         }
     }
