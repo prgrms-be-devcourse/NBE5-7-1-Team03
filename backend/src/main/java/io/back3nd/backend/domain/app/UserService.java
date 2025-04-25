@@ -18,14 +18,14 @@ public class UserService {
     private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public Users signUp(SignUpRequest request){
+    public void signUp(SignUpRequest request){
         Users newUser = Users.builder()
                 .email(request.getEmail())
                 .nickname(request.getNickname())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();
 
-        return usersRepository.save(newUser);
+        usersRepository.save(newUser);
     }
 
     public UserResponse findUser(String email) {
