@@ -6,6 +6,7 @@ import ItemUpdate from './pages/itemUpdate';
 import ItemAdd from './pages/ItemAdd';
 import Home from './pages/Home';
 import OrderPage from './pages/OrderPage';
+import SignUp from './pages/SignUp';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/admin/edit/:id" element={<ItemUpdate />} />
         <Route path="/admin/add" element={<ItemAdd />} />
         <Route path="/order" element={<OrderPage />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
     </BrowserRouter>
   );
