@@ -40,6 +40,9 @@ public class Orders {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItems> orderItems = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private Users user;
 
     @Builder
     public Orders(String email, String address, String zipcode) {
