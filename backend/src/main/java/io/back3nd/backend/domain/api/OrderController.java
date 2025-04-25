@@ -4,10 +4,12 @@ import io.back3nd.backend.domain.app.OrderService;
 import io.back3nd.backend.domain.dao.UsersRepository;
 import io.back3nd.backend.domain.dto.OrderRequest;
 import io.back3nd.backend.domain.dto.OrderResponse;
+import io.back3nd.backend.domain.dto.UserDetailsImpl;
 import io.back3nd.backend.domain.entity.Users;
 import io.back3nd.backend.global.common.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -25,9 +27,13 @@ public class OrderController {
     @PostMapping("/orders")
     public ResponseEntity<CommonResponse<OrderResponse>> doOrder(
             @RequestBody OrderRequest orderRequest,
-            @RequestParam Long userId) {
-        Users user = usersRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        if (userDetails == null) {
+            throw new IllegalArgumentException("로그인이 필요합니다.");
+        }
+
+        Users user = userDetails.getUser();
 
         OrderResponse orderResponse = orderService.doOrder(orderRequest, user);
         return ResponseEntity.status(ORDER_SUCCESS.getStatus())

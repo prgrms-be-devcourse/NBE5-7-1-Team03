@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +26,7 @@ public class OrderService {
     public OrderResponse doOrder(OrderRequest orderRequest, Users user) {
         List<OrderItems> orderItems = orderRequest.getOrderItems().stream().map(req -> {
             Items item = itemsRepository.findById(req.getItemId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이템 번호 입니다."));
-            item.decreaseStock(req.getQuantity()); //에러가 두번 던져져서 리팩토링
+            item.decreaseStock(req.getQuantity());
 
             return OrderItems.builder().item(item).quantity(req.getQuantity()).build();
         }).toList();
@@ -38,7 +37,7 @@ public class OrderService {
                 .zipcode(orderRequest.getZipcode())
                 .build();
 
-        orders.setUser(user);  // 로그인된 사용자와 연관
+        orders.setUser(user);
 
         for (OrderItems orderItem : orderItems) {
             orderItem.setOrder(orders);
