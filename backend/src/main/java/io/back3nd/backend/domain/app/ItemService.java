@@ -4,6 +4,7 @@ import io.back3nd.backend.domain.dao.ItemsRepository;
 import io.back3nd.backend.domain.dto.ItemRequest;
 import io.back3nd.backend.domain.dto.ItemResponse;
 import io.back3nd.backend.domain.dto.SimpleItemResponse;
+import io.back3nd.backend.domain.entity.ImageFiles;
 import io.back3nd.backend.domain.entity.Items;
 import io.back3nd.backend.global.exception.DuplicatedNameException;
 import lombok.RequiredArgsConstructor;
@@ -20,19 +21,19 @@ public class ItemService {
 
     private final ItemsRepository itemsRepository;
 
-    public void addItem(ItemRequest itemRequest) {
+    public void addItem(ItemRequest itemRequest, ImageFiles imageFile) {
         if (itemsRepository.findByName(itemRequest.getName()).isPresent()) {
             throw new DuplicatedNameException("해당 상품명이 이미 존재합니다.");
         }
 
-        Items items = Items.builder()
+        Items item = Items.builder()
                 .name(itemRequest.getName())
                 .price(itemRequest.getPrice())
                 .stock(itemRequest.getStock())
-                .imageUrl(itemRequest.getImageUrl())
+                .imageFile(imageFile)
                 .build();
 
-        itemsRepository.save(items);
+        itemsRepository.save(item);
     }
 
     public List<ItemResponse> findAll() {
@@ -51,7 +52,7 @@ public class ItemService {
         return SimpleItemResponse.from(item);
     }
 
-    public void updateItem(Long itemId, ItemRequest itemRequest) {
+    public void updateItem(Long itemId, ItemRequest itemRequest, ImageFiles imageFile) {
         Items findItem = itemsRepository.findById(itemId)
                 .orElseThrow(
                         () -> new NoSuchElementException("해당하는 상품을 찾을 수 없습니다.")
@@ -62,7 +63,7 @@ public class ItemService {
             throw new DuplicatedNameException("이미 존재하는 상품명입니다.");
         }
 
-        findItem.updateItem(itemRequest);
+        findItem.updateItem(itemRequest, imageFile);
     }
 
     public void deleteItem(Long itemId) {

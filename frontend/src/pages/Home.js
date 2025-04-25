@@ -11,7 +11,7 @@ export default function Home() {
         <div className="card-body d-flex flex-column justify-content-center align-items-center p-4">
           <p>
             <Link to={`/admin`} className="btn btn-secondary mt-5 mb-3 px-4 py-2">
-              관리자 페이지g
+              관리자 페이지
             </Link>
           </p>
           <p>
