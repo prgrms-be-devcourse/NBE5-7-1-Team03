@@ -8,13 +8,14 @@ export default function UserPage() {
 
   const handleSearch = () => {
     if (!orderId) {
-      alert("주문 ID를 입력해주세요.");
+      alert('주문 ID를 입력해주세요.');
       return;
     }
 
-    axios.get(`/orders/${orderId}`)
+    axios
+      .get(`/orders/${orderId}`)
       .then(res => {
-        setOrder(res.data);
+        setOrder(res.data.response);
         setError('');
       })
       .catch(err => {
@@ -25,17 +26,21 @@ export default function UserPage() {
   };
 
   const handleDelete = () => {
-    if (!window.confirm("정말 이 주문을 삭제하시겠습니까?")) return;
+    if (!window.confirm('정말 이 주문을 삭제하시겠습니까?')) return;
 
-    axios.delete(`/orders/${orderId}`)
-      .then(() => {
-        alert("주문이 삭제되었습니다.");
+    axios
+      .delete(`/orders/${orderId}`)
+      .then(res => {
+        alert('삭제되었습니다.');
         setOrder(null);
         setOrderId('');
       })
       .catch(err => {
-        alert("삭제 실패");
-        console.error(err);
+        if (err.response?.status === 400 && err.response?.data?.message?.includes('삭제')) {
+          alert('이미 삭제된 주문입니다.');
+        } else {
+          alert('삭제 실패');
+        }
       });
   };
 
@@ -51,7 +56,9 @@ export default function UserPage() {
           value={orderId}
           onChange={e => setOrderId(e.target.value)}
         />
-        <button className="btn btn-primary mt-2" onClick={handleSearch}>조회</button>
+        <button className="btn btn-primary mt-2" onClick={handleSearch}>
+          조회
+        </button>
       </div>
 
       {error && <div className="alert alert-danger">{error}</div>}
@@ -59,18 +66,28 @@ export default function UserPage() {
       {order && (
         <div className="border p-4 rounded">
           <h5>주문 상세</h5>
-          <p><strong>이메일:</strong> {order.email}</p>
-          <p><strong>주소:</strong> {order.address}</p>
-          <p><strong>우편번호:</strong> {order.zipcode}</p>
+          <p>
+            <strong>이메일:</strong> {order.email}
+          </p>
+          <p>
+            <strong>주소:</strong> {order.address}
+          </p>
+          <p>
+            <strong>우편번호:</strong> {order.zipcode}
+          </p>
 
           <h6 className="mt-3">상품 목록</h6>
           <ul>
             {order.orderItems?.map((item, idx) => (
-              <li key={idx}>{item.name} - {item.quantity}개</li>
+              <li key={idx}>
+                {item.name} - {item.quantity}개
+              </li>
             ))}
           </ul>
 
-          <button className="btn btn-danger mt-3" onClick={handleDelete}>주문 삭제</button>
+          <button className="btn btn-danger mt-3" onClick={handleDelete}>
+            주문 삭제
+          </button>
         </div>
       )}
     </div>

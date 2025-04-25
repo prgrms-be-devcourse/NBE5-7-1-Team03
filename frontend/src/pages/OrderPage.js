@@ -11,43 +11,15 @@ function OrderPage() {
     zipcode: '',
   });
 
-  // useEffect(() => {
-  //   axios
-  //     .get('/items')
-  //     .then(res => {
-  //       setProducts(res.data.response);
-  //     })
-  //     .catch(err => {
-  //       console.log('상품 목록을 불러오는 데 실패했습니다:', err);
-  //     });
-  // }, []);
-
   useEffect(() => {
-    const fakeItems = [
-      {
-        id: 1,
-        name: '콜드브루',
-        price: 4000,
-        stock: 10,
-        imageUrl: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=80&h=80',
-      },
-      {
-        id: 2,
-        name: '아이스 아메리카노',
-        price: 3500,
-        stock: 15,
-        imageUrl: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=80&h=80',
-      },
-      {
-        id: 3,
-        name: '카페라떼',
-        price: 4500,
-        stock: 8,
-        imageUrl: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=80&h=80',
-      },
-    ];
-
-    setProducts(fakeItems);
+    axios
+      .get('/items')
+      .then(res => {
+        setProducts(res.data.response);
+      })
+      .catch(err => {
+        console.log('상품 목록을 불러오는 데 실패했습니다:', err);
+      });
   }, []);
 
   const handleAddItem = item => {
