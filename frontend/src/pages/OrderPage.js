@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import './OrderPage.css';
 
 function OrderPage() {
@@ -81,6 +82,19 @@ function OrderPage() {
   return (
     <div className="container mt-5">
       <h2 className="text-center mb-4">Grids & Circle</h2>
+      <div className="card">
+        <div className="card-header">
+          <Link className="btn btn-secondary mx-1" to="/">
+            홈 화면
+          </Link>
+          <Link className="btn btn-primary mx-1" to="/login">
+            로그인
+          </Link>
+          <Link className="btn btn-primary mx-1" to="/signup">
+            회원 가입
+          </Link>
+        </div>
+      </div>
       <div className="row">
         <div className="col-md-7">
           <h5>

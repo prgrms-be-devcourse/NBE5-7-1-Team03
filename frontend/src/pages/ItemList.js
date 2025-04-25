@@ -32,6 +32,9 @@ export default function ItemList() {
           <Link className="btn btn-secondary mx-1" to="/">
             Home
           </Link>
+          <Link className="btn btn-primary mx-1" to="/login">
+            로그인
+          </Link>
           <Link className="btn btn-dark mx-1" to="/admin/add">
             상품 등록
           </Link>
