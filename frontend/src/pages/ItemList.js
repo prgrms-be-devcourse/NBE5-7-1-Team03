@@ -52,29 +52,30 @@ export default function ItemList() {
             </thead>
 
             <tbody>
-              {itemList.map(item => (
-                <tr key={item.id}>
-                  <td>
-                    <img
-                      src={`http://localhost:8080/items/images/${item.storeFileName}`}
-                      alt="상품 이미지"
-                      width="200"
-                      height="150"
-                    />
-                  </td>
-                  <td>{item.name}</td>
-                  <td>{item.price}</td>
-                  <td>{item.stock}</td>
-                  <td>
-                    <Link to={`/admin/edit/${item.id}`} className="btn btn-info mx-1">
-                      수정
-                    </Link>
-                    <button onClick={() => handleDeleteConfirm(item.id)} className="btn btn-danger mx-1">
-                      삭제
-                    </button>
-                  </td>
-                </tr>
-              ))}
+              {itemList &&
+                itemList.map(item => (
+                  <tr key={item.id}>
+                    <td>
+                      <img
+                        src={`http://localhost:8080/items/images/${item.storeFileName}`}
+                        alt="상품 이미지"
+                        width="200"
+                        height="150"
+                      />
+                    </td>
+                    <td>{item.name}</td>
+                    <td>{item.price}</td>
+                    <td>{item.stock}</td>
+                    <td>
+                      <Link to={`/admin/edit/${item.id}`} className="btn btn-info mx-1">
+                        수정
+                      </Link>
+                      <button onClick={() => handleDeleteConfirm(item.id)} className="btn btn-danger mx-1">
+                        삭제
+                      </button>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
