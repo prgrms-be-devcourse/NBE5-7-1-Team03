@@ -20,6 +20,11 @@ export default function Home() {
             </Link>
           </p>
           <p>
+            <Link to={`/login`} className="btn btn-primary px-4 py-2">
+              로그인
+            </Link>
+          </p>
+          <p>
             <Link to={`/order`} className="btn btn-dark px-4 py-2">
               커피 주문하기
             </Link>

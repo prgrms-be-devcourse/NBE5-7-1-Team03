@@ -7,6 +7,7 @@ import ItemAdd from './pages/ItemAdd';
 import Home from './pages/Home';
 import OrderPage from './pages/OrderPage';
 import SignUp from './pages/SignUp';
+import Login from './pages/Login';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/admin/add" element={<ItemAdd />} />
         <Route path="/order" element={<OrderPage />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
   );

@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-export default function SignUp() {
+export default function Login() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    nickname: '',
     email: '',
     password: '',
   });
@@ -22,14 +21,14 @@ export default function SignUp() {
     e.preventDefault();
 
     axios.post(`/signUp`, formData).then(() => {
-      alert('회원가입이 완료되었습니다!');
+      alert('로그인 성공!');
       navigate('/');
     });
   };
 
   return (
     <div className="container">
-      <h2 className="text-center mt-5 mb-3">회원 가입</h2>
+      <h2 className="text-center mt-5 mb-3">로그인</h2>
       <div className="card">
         <div className="card-header">
           <Link className="btn btn-secondary mx-1" to="/">
@@ -38,18 +37,6 @@ export default function SignUp() {
         </div>
         <div className="card-body d-flex justify-content-center">
           <form onSubmit={handleSubmit} className="w-50">
-            <div className="form-group">
-              <label className="form-label">닉네임</label>
-              <input
-                type="text"
-                name="nickname"
-                className="form-control"
-                value={formData.nickname}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
             <div className="form-group">
               <label className="form-label">이메일</label>
               <input
@@ -76,7 +63,7 @@ export default function SignUp() {
 
             <div className="text-center mt-3">
               <button type="submit" className="btn btn-dark">
-                가입
+                로그인
               </button>
             </div>
           </form>
