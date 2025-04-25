@@ -47,4 +47,16 @@ public class Items {
         this.imageFile=imageFile;
         this.updatedAt = LocalDateTime.now();
     }
+
+    public void decreaseStock(int quantity){
+        if(this.stock < quantity ){
+            throw new IllegalArgumentException("재고가 부족합니다.");
+        }
+        this.stock -= quantity;
+    }
+
+    public void increaseStock(int quantity){
+        this.stock += quantity;
+    }
+
 }
