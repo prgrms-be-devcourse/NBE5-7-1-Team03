@@ -66,7 +66,15 @@ function OrderPage() {
 
     axios
       .post('/orders', orderPayload)
-      .then(res => alert(res.data.message))
+      .then(res => {
+        alert(res.data.message);
+        setFormData({ email: '', address: '', zipcode: '' });
+        setOrderItems([]);
+        axios
+          .get('/items')
+          .then(res => setProducts(res.data.response))
+          .catch(err => console.log('상품 다시 불러오기 실패:', err));
+      })
       .catch(err => console.log('주문 실패:', err));
   };
 
@@ -83,7 +91,7 @@ function OrderPage() {
               <div key={product.id} className="d-flex align-items-center justify-content-between border-bottom py-2">
                 <div className="d-flex align-items-center gap-3">
                   <img
-                    src={product.imageUrl}
+                    src={`http://localhost:8080/items/images/${product.storeFileName}`}
                     alt="상품 이미지"
                     className="rounded"
                     style={{ width: '80px', height: '80px', objectFit: 'cover' }}
@@ -127,18 +135,21 @@ function OrderPage() {
               className="form-control mb-2"
               placeholder="이메일"
               required
+              value={formData.email}
               onChange={e => setFormData({ ...formData, email: e.target.value })}
             />
             <input
               className="form-control mb-2"
               placeholder="주소"
               required
+              value={formData.address}
               onChange={e => setFormData({ ...formData, address: e.target.value })}
             />
             <input
               className="form-control mb-2"
               placeholder="우편번호"
               required
+              value={formData.zipcode}
               onChange={e => setFormData({ ...formData, zipcode: e.target.value })}
             />
             <p className="small text-muted mt-1">당일 오후 2시 이후의 주문은 다음날 배송을 시작합니다.</p>

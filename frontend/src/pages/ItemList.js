@@ -12,7 +12,7 @@ export default function ItemList() {
 
   const fetchItemList = () => {
     axios.get('/items').then(response => {
-      setItemList(response.data);
+      setItemList(response.data.response);
     });
   };
 
@@ -53,7 +53,8 @@ export default function ItemList() {
                 <tr key={item.id}>
                   <td>
                     <img
-                      src="https://media.istockphoto.com/id/2164167953/ko/%EC%82%AC%EC%A7%84/roasted-coffee-beans-in-air.jpg?s=1024x1024&w=is&k=20&c=jNoGwyfkkmoeKqcLSrTImMQJFZganP11V8Ui8igsjG4="
+                      src={`http://localhost:8080/items/images/${item.storeFileName}`}
+                      alt="상품 이미지"
                       width="200"
                       height="150"
                     />

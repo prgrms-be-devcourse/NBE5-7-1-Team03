@@ -1,8 +1,11 @@
 package io.back3nd.backend.domain.app;
 
+import io.back3nd.backend.domain.dao.ItemsRepository;
 import io.back3nd.backend.domain.dao.OrdersRepository;
 import io.back3nd.backend.domain.dto.OrderRequest;
 import io.back3nd.backend.domain.dto.OrderResponse;
+import io.back3nd.backend.domain.entity.Items;
+import io.back3nd.backend.domain.entity.OrderItems;
 import io.back3nd.backend.domain.entity.Orders;
 import io.back3nd.backend.domain.entity.Status;
 import io.back3nd.backend.global.exception.InvalidOrderException;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -19,28 +23,33 @@ import java.util.NoSuchElementException;
 @Transactional
 public class OrderService {
 
+    private final ItemsRepository itemsRepository;
     private final OrdersRepository ordersRepository;
 
     public OrderResponse doOrder(OrderRequest orderRequest) {
+        List<OrderItems> orderItems = orderRequest.getOrderItems().stream().map(req -> {
+            Items item = itemsRepository.findById(req.getItemId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이템 번호 입니다."));
+            try {
+                item.decreaseStock(req.getQuantity());
+            } catch (IllegalArgumentException e) {
+                throw e;
+            }
 
-        String email = orderRequest.getEmail();
-        String address = orderRequest.getAddress();
-        String zipcode = orderRequest.getZipcode();
+            return OrderItems.builder().item(item).quantity(req.getQuantity()).build();
+        }).toList();
 
-        checkMultipleOrders(email, address, zipcode);
-        checkEssentialInput(email, address, zipcode);
-        checkInvalidEmail(email);
+        Orders orders = Orders.builder().email(orderRequest.getEmail()).address(orderRequest.getAddress()).zipcode(orderRequest.getZipcode()).build();
 
-        Orders orders = Orders.builder()
-                .email(orderRequest.getEmail())
-                .address(orderRequest.getAddress())
-                .zipcode(orderRequest.getZipcode())
-                .build();
+        for (OrderItems orderItem : orderItems) {
+            orderItem.setOrder(orders);
+        }
+
+        orders.setOrderItems(orderItems);
 
         Orders saved = ordersRepository.save(orders);
         return new OrderResponse(saved);
-
     }
+
 
     public OrderResponse getOrder(Long id) {
         Orders orders = ordersRepository.findById(id).

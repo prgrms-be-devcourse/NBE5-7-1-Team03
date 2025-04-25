@@ -15,15 +15,15 @@ public class ItemResponse {
 
     private int stock;
 
-    private String imageUrl;
+    private String storeFileName;
 
     @Builder
-    public ItemResponse(Long id, String name, int price, int stock, String imageUrl) {
+    public ItemResponse(Long id, String name, int price, int stock, String storeFileName) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.stock = stock;
-        this.imageUrl = imageUrl;
+        this.storeFileName = storeFileName;
     }
 
     public static ItemResponse from(Items item) {
@@ -32,7 +32,7 @@ public class ItemResponse {
                 .name(item.getName())
                 .price(item.getPrice())
                 .stock(item.getStock())
-                .imageUrl(item.getImageUrl())
+                .storeFileName(item.getImageFile().getStoreFileName())
                 .build();
     }
 }
