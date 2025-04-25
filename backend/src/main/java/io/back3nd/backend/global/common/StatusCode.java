@@ -20,7 +20,11 @@ public enum StatusCode {
     ITEM_CREATED(CREATED,"상품이 등록 되었습니다."),
     ITEM_FOUND(OK, "상품 조회에 성공했습니다."),
     ITEM_UPDATED(OK, "상품 정보가 변경되었습니다."),
-    ITEM_DELETE(NO_CONTENT,"상품이 삭제되었습니다.");
+    ITEM_DELETE(NO_CONTENT,"상품이 삭제되었습니다."),
+
+    /* Users */
+    USER_CREATED(CREATED,"회원 가입에 성공하였습니다."),
+    USER_FOUND(OK, "회원 조회에 성공했습니다.");
 
     private final HttpStatus status;
     private final String message;
