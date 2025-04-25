@@ -11,7 +11,7 @@ export default function ItemList() {
   }, []);
 
   const fetchItemList = () => {
-      axios.get('/items').then(response => {
+    axios.get('/items').then(response => {
       setItemList(response.data.response);
     });
   };
@@ -54,6 +54,7 @@ export default function ItemList() {
                   <td>
                     <img
                       src={`http://localhost:8080/items/images/${item.storeFileName}`}
+                      alt="상품 이미지"
                       width="200"
                       height="150"
                     />
