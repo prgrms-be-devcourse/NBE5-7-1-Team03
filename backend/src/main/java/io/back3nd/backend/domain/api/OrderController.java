@@ -29,10 +29,6 @@ public class OrderController {
             @RequestBody OrderRequest orderRequest,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        if (userDetails == null) {
-            throw new IllegalArgumentException("로그인이 필요합니다.");
-        }
-
         Users user = userDetails.getUser();
 
         OrderResponse orderResponse = orderService.doOrder(orderRequest, user);
