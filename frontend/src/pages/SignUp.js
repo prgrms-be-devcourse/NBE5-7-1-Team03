@@ -21,7 +21,7 @@ export default function SignUp() {
   const handleSubmit = e => {
     e.preventDefault();
 
-    axios.post(`/signUp`, formData).then(() => {
+    axios.post(`/sign-up`, formData).then(() => {
       alert('회원가입이 완료되었습니다!');
       navigate('/');
     });

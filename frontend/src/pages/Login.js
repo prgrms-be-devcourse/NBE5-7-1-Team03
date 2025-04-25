@@ -20,10 +20,17 @@ export default function Login() {
   const handleSubmit = e => {
     e.preventDefault();
 
-    axios.post(`/login`, formData).then(() => {
-      alert('로그인 성공!');
-      navigate('/');
-    });
+    axios
+      .post(`/login`, formData, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        withCredentials: true,
+      })
+      .then(() => {
+        alert('로그인 성공!');
+        navigate('/');
+      });
   };
 
   return (
