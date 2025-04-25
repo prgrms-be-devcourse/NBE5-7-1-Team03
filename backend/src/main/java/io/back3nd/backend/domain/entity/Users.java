@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.boot.autoconfigure.web.WebProperties;
 
 import java.time.LocalDateTime;
@@ -25,7 +26,7 @@ public class Users {
     private String nickname;
 
     private LocalDateTime createdAt=LocalDateTime.now();
-    private Role role=Role.USER;
+    @Setter private Role role=Role.USER;
 
     @OneToMany(mappedBy = "user")
     private List<Orders> orders=new ArrayList<>();

@@ -1,9 +1,10 @@
 package io.back3nd.backend.domain.dto;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-//todo validation 추가
 @Data
+@NoArgsConstructor
 public class SignUpRequest {
 
     private String nickname;

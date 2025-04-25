@@ -5,6 +5,7 @@ import io.back3nd.backend.domain.dto.SignUpRequest;
 import io.back3nd.backend.domain.dto.UserResponse;
 import io.back3nd.backend.domain.entity.Users;
 import io.back3nd.backend.global.exception.CustomException;
+import io.back3nd.backend.global.exception.InvalidSignUpException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public void signUp(SignUpRequest request){
+        validate(request);
+
         Users newUser = Users.builder()
                 .email(request.getEmail())
                 .nickname(request.getNickname())
@@ -38,5 +41,14 @@ public class UserService {
                 .createdAt(findUser.getCreatedAt())
                 .orders(findUser.getOrders())
                 .build();
+    }
+
+    private void validate(SignUpRequest request){
+        if(usersRepository.existsByEmail(request.getEmail())){
+            throw new InvalidSignUpException("이미 사용 중인 이메일 입니다.");
+        }
+        if(usersRepository.existsByNickname(request.getNickname())){
+            throw new InvalidSignUpException("이미 사용 중인 닉네임 입니다.");
+        }
     }
 }
