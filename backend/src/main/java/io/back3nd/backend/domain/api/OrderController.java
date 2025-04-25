@@ -36,7 +36,7 @@ public class OrderController {
             @PathVariable Long id) {
         orderService.deleteOrder(id);
         return ResponseEntity.status(ORDER_DELETE.getStatus())
-                .body(CommonResponse.from(ORDER_DELETE.getMessage(), orderService.getOrder(id)));
+                .body(CommonResponse.from(ORDER_DELETE.getMessage()));
     }
 }
 
