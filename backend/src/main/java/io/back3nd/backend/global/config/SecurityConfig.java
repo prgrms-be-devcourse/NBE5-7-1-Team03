@@ -30,6 +30,12 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .formLogin(form -> form
                         .usernameParameter("email")
+                        .successHandler((request, response, authentication) -> {
+                            response.setStatus(HttpServletResponse.SC_OK);
+                            response.setCharacterEncoding("UTF-8");
+                            response.setContentType("application/json; charset=UTF-8");
+                            response.getWriter().write("{\"message\": \"로그인 성공, \"}");
+                        })
                         .failureHandler((request, response, exception) -> {
                             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                             response.setCharacterEncoding("UTF-8");
