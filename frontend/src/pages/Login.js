@@ -41,6 +41,9 @@ export default function Login() {
           <Link className="btn btn-secondary mx-1" to="/">
             홈 화면
           </Link>
+          <Link className="btn btn-primary mx-1" to="/signup">
+            회원 가입
+          </Link>
         </div>
         <div className="card-body d-flex justify-content-center">
           <form onSubmit={handleSubmit} className="w-50">
