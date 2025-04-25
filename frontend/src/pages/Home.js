@@ -1,7 +1,33 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import useAuthCheck from '../hooks/useLoginCheck';
+import axios from 'axios';
 
 export default function Home() {
+  const navigate = useNavigate();
+  const { isLogin, user, loading } = useAuthCheck();
+
+  const handleLogout = async () => {
+    try {
+      await axios
+        .post(
+          '/logout',
+          {},
+          {
+            withCredentials: true,
+          }
+        )
+        .then(() => {
+          alert('로그아웃 성공!');
+          window.location.reload();
+        });
+    } catch (err) {
+      console.error('로그아웃 실패:', err);
+    }
+  };
+
+  if (loading) return <p>확인 중...</p>;
+
   return (
     <div className="container p-5 text-center">
       <div className="card style={{ height: '100vh' }}">
@@ -19,11 +45,22 @@ export default function Home() {
               회원 가입
             </Link>
           </p>
-          <p>
-            <Link to={`/login`} className="btn btn-primary px-4 py-2">
-              로그인
-            </Link>
-          </p>
+          <div>
+            {isLogin ? (
+              <p>
+                <Link onClick={handleLogout} className="btn btn-secondary px-4 py-2">
+                  로그아웃
+                </Link>
+              </p>
+            ) : (
+              // <a href="/login">로그인</a>
+              <p>
+                <Link to={`/login`} className="btn btn-primary px-4 py-2">
+                  로그인
+                </Link>
+              </p>
+            )}
+          </div>
           <p>
             <Link to={`/order`} className="btn btn-dark px-4 py-2">
               커피 주문하기
