@@ -6,6 +6,8 @@ import ItemUpdate from './pages/itemUpdate';
 import ItemAdd from './pages/ItemAdd';
 import Home from './pages/Home';
 import OrderPage from './pages/OrderPage';
+import UserPage from './pages/UserPage';
+
 
 function App() {
   return (
@@ -16,6 +18,7 @@ function App() {
         <Route path="/admin/edit/:id" element={<ItemUpdate />} />
         <Route path="/admin/add" element={<ItemAdd />} />
         <Route path="/orders" element={<OrderPage />} />
+        <Route path="/user" element={<UserPage />} />
       </Routes>
     </BrowserRouter>
   );
