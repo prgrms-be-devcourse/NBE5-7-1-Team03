@@ -21,7 +21,7 @@ export default function SignUp() {
   const handleSubmit = e => {
     e.preventDefault();
 
-    axios.post(`/signUp`, formData).then(() => {
+    axios.post(`/sign-up`, formData).then(() => {
       alert('회원가입이 완료되었습니다!');
       navigate('/');
     });
@@ -34,6 +34,9 @@ export default function SignUp() {
         <div className="card-header">
           <Link className="btn btn-secondary mx-1" to="/">
             홈 화면
+          </Link>
+          <Link className="btn btn-primary mx-1" to="/login">
+            로그인
           </Link>
         </div>
         <div className="card-body d-flex justify-content-center">

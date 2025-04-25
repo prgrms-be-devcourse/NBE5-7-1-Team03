@@ -20,10 +20,17 @@ export default function Login() {
   const handleSubmit = e => {
     e.preventDefault();
 
-    axios.post(`/login`, formData).then(() => {
-      alert('로그인 성공!');
-      navigate('/');
-    });
+    axios
+      .post(`/login`, formData, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        withCredentials: true,
+      })
+      .then(() => {
+        alert('로그인 성공!');
+        navigate('/');
+      });
   };
 
   return (
@@ -33,6 +40,9 @@ export default function Login() {
         <div className="card-header">
           <Link className="btn btn-secondary mx-1" to="/">
             홈 화면
+          </Link>
+          <Link className="btn btn-primary mx-1" to="/signup">
+            회원 가입
           </Link>
         </div>
         <div className="card-body d-flex justify-content-center">
