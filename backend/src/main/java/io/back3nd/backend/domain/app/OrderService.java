@@ -4,10 +4,7 @@ import io.back3nd.backend.domain.dao.ItemsRepository;
 import io.back3nd.backend.domain.dao.OrdersRepository;
 import io.back3nd.backend.domain.dto.OrderRequest;
 import io.back3nd.backend.domain.dto.OrderResponse;
-import io.back3nd.backend.domain.entity.Items;
-import io.back3nd.backend.domain.entity.OrderItems;
-import io.back3nd.backend.domain.entity.Orders;
-import io.back3nd.backend.domain.entity.Status;
+import io.back3nd.backend.domain.entity.*;
 import io.back3nd.backend.global.exception.InvalidOrderException;
 import io.back3nd.backend.global.exception.InvalidOrderStateException;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,19 +24,21 @@ public class OrderService {
     private final ItemsRepository itemsRepository;
     private final OrdersRepository ordersRepository;
 
-    public OrderResponse doOrder(OrderRequest orderRequest) {
+    public OrderResponse doOrder(OrderRequest orderRequest, Users user) {
         List<OrderItems> orderItems = orderRequest.getOrderItems().stream().map(req -> {
             Items item = itemsRepository.findById(req.getItemId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이템 번호 입니다."));
-            try {
-                item.decreaseStock(req.getQuantity());
-            } catch (IllegalArgumentException e) {
-                throw e;
-            }
+            item.decreaseStock(req.getQuantity()); //에러가 두번 던져져서 리팩토링
 
             return OrderItems.builder().item(item).quantity(req.getQuantity()).build();
         }).toList();
 
-        Orders orders = Orders.builder().email(orderRequest.getEmail()).address(orderRequest.getAddress()).zipcode(orderRequest.getZipcode()).build();
+        Orders orders = Orders.builder()
+                .email(orderRequest.getEmail())
+                .address(orderRequest.getAddress())
+                .zipcode(orderRequest.getZipcode())
+                .build();
+
+        orders.setUser(user);  // 로그인된 사용자와 연관
 
         for (OrderItems orderItem : orderItems) {
             orderItem.setOrder(orders);

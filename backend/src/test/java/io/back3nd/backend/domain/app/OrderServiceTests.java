@@ -1,11 +1,15 @@
 package io.back3nd.backend.domain.app;
 
 import io.back3nd.backend.domain.dao.OrdersRepository;
+import io.back3nd.backend.domain.dao.UsersRepository;
+import io.back3nd.backend.domain.dto.ItemRequest;
 import io.back3nd.backend.domain.dto.OrderRequest;
 import io.back3nd.backend.domain.dto.OrderResponse;
 import io.back3nd.backend.domain.entity.Orders;
 import io.back3nd.backend.domain.entity.Status;
+import io.back3nd.backend.domain.entity.Users;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +30,35 @@ class OrderServiceTests {
     private OrderService orderService;
 
     @Autowired
+    private ItemService itemService;
+
+    @Autowired
     private OrdersRepository ordersRepository;
+
+    @Autowired
+    private UsersRepository usersRepository;
+
+    private Users testUser;
+    @BeforeEach
+    void setUp() {
+        testUser = usersRepository.findByEmail("example@example.com")
+                .orElseGet(() -> usersRepository.save(
+                        Users.builder()
+                                .email("example@example.com")
+                                .password("1234")
+                                .nickname("테스트유저")
+                                .build()
+                ));
+
+        for (int i = 1; i <= 3; i++) {
+            String name = "테스트커피" + i;
+            ItemRequest itemRequest = new ItemRequest(name, 1000 * i, 100);
+            try {
+                itemService.addItem(itemRequest, null);
+            } catch (Exception ignored) {
+            }
+        }
+    }
 
     @Test
     @DisplayName("주문하기")
@@ -42,7 +74,7 @@ class OrderServiceTests {
                 )
         );
 
-        OrderResponse orderResponse = orderService.doOrder(request);
+        OrderResponse orderResponse = orderService.doOrder(request, testUser);
 
         assertThat(request).isNotNull();
         assertThat(request.getEmail()).isEqualTo("example@example.com");
@@ -66,7 +98,7 @@ class OrderServiceTests {
                         new OrderRequest.OrderItemRequest(3L, 3)
                 )
         );
-        OrderResponse created = orderService.doOrder(request);
+        OrderResponse created = orderService.doOrder(request,testUser);
 
         OrderResponse getOrder = orderService.getOrder(created.getId());
 
@@ -102,7 +134,7 @@ class OrderServiceTests {
                         new OrderRequest.OrderItemRequest(3L, 3)
                 )
         );
-        OrderResponse created = orderService.doOrder(request);
+        OrderResponse created = orderService.doOrder(request, testUser);
 
         orderService.deleteOrder(created.getId());
 
