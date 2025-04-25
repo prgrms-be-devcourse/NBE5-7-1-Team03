@@ -20,7 +20,7 @@ export default function Login() {
   const handleSubmit = e => {
     e.preventDefault();
 
-    axios.post(`/signUp`, formData).then(() => {
+    axios.post(`/login`, formData).then(() => {
       alert('로그인 성공!');
       navigate('/');
     });
