@@ -27,7 +27,7 @@ public class Users {
     private String nickname;
 
     private LocalDateTime createdAt=LocalDateTime.now();
-    private Role role=Role.USER;
+    @Setter private Role role=Role.USER;
 
     @OneToMany(mappedBy = "user")
     private List<Orders> orders=new ArrayList<>();
