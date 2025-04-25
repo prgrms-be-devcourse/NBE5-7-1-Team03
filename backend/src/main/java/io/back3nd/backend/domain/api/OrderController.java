@@ -1,12 +1,16 @@
 package io.back3nd.backend.domain.api;
 
 import io.back3nd.backend.domain.app.OrderService;
+import io.back3nd.backend.domain.dao.UsersRepository;
 import io.back3nd.backend.domain.dto.OrderRequest;
 import io.back3nd.backend.domain.dto.OrderResponse;
+import io.back3nd.backend.domain.entity.Users;
 import io.back3nd.backend.global.common.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 import static io.back3nd.backend.global.common.StatusCode.*;
 
@@ -16,12 +20,18 @@ import static io.back3nd.backend.global.common.StatusCode.*;
 public class OrderController {
 
     private final OrderService orderService;
+    private final UsersRepository usersRepository;
 
     @PostMapping("/orders")
     public ResponseEntity<CommonResponse<OrderResponse>> doOrder(
-            @RequestBody OrderRequest orderRequest) {
+            @RequestBody OrderRequest orderRequest,
+            @RequestParam Long userId) {
+        Users user = usersRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+
+        OrderResponse orderResponse = orderService.doOrder(orderRequest, user);
         return ResponseEntity.status(ORDER_SUCCESS.getStatus())
-                .body(CommonResponse.from(ORDER_SUCCESS.getMessage(), orderService.doOrder(orderRequest)));
+                .body(CommonResponse.from(ORDER_SUCCESS.getMessage(), orderResponse));
     }
 
     @GetMapping("/orders/{id}")
