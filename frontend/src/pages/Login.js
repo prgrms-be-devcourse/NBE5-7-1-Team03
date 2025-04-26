@@ -35,7 +35,7 @@ export default function Login() {
 
   return (
     <div className="container">
-      <h2 className="text-center mt-5 mb-3">로그인</h2>
+      <h2 className="text-center mt-5 mb-3 fw-bold text-primary fs-2">로그인</h2>
       <div className="card">
         <div className="card-header">
           <Link className="btn btn-secondary mx-1" to="/">
