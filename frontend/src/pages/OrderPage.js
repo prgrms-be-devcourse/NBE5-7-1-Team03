@@ -66,7 +66,7 @@ function OrderPage() {
     };
 
     axios
-      .post('/orders', orderPayload)
+      .post('/orders', orderPayload, { withCredentials: true })
       .then(res => {
         alert(res.data.message);
         setFormData({ email: '', address: '', zipcode: '' });
