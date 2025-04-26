@@ -4,6 +4,7 @@ import io.back3nd.backend.domain.entity.Role;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -46,7 +47,10 @@ public class SecurityConfig {
                 .logout(logout -> logout
                         .logoutSuccessUrl("/"))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/items/**").hasAuthority(Role.ADMIN.name())
+                        .requestMatchers(HttpMethod.GET, "/items/").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/items").hasAuthority(Role.ADMIN.name())
+                        .requestMatchers(HttpMethod.PUT, "/items/").hasAuthority(Role.ADMIN.name())
+                        .requestMatchers(HttpMethod.DELETE, "/items/").hasAuthority(Role.ADMIN.name())
                         .anyRequest().permitAll()
                 )
                 .build();
