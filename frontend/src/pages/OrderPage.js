@@ -14,7 +14,7 @@ function OrderPage() {
 
   useEffect(() => {
     axios
-      .get('/items')
+      .get('/items', { withCredentials: true })
       .then(res => {
         setProducts(res.data.response);
       })
