@@ -2,9 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { deleteItem } from './api';
+import useAuthCheck from '../hooks/useLoginCheck'; // ✅ 추가
+import { useNavigate } from 'react-router-dom'; // ✅ 추가
 
 export default function ItemList() {
   const [itemList, setItemList] = useState([]);
+  const { isLogin, loading } = useAuthCheck(); // ✅ 추가
+  const navigate = useNavigate(); // ✅ 추가
 
   useEffect(() => {
     fetchItemList();
@@ -28,21 +32,44 @@ export default function ItemList() {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await axios.post('/logout', {}, { withCredentials: true });
+      alert('로그아웃 성공!');
+      navigate('/'); // 홈으로 이동
+      window.location.reload();
+    } catch (err) {
+      console.error('로그아웃 실패:', err);
+    }
+  };
+
+  if (loading) return <div>확인 중...</div>; // 로딩 처리
+
   return (
     <div className="container">
-      <h2 className="text-center mt-5 mb-3">메뉴 관리</h2>
+      <h2 className="text-center mt-5 mb-3 fw-bold text-primary">메뉴 관리</h2>
       <div className="card">
         <div className="card-header">
           <Link className="btn btn-secondary mx-1" to="/">
             Home
           </Link>
-          <Link className="btn btn-primary mx-1" to="/login">
-            로그인
-          </Link>
+
+          {/* ✅ 로그인 여부에 따라 버튼 변경 */}
+          {isLogin ? (
+            <button className="btn btn-danger mx-1" onClick={handleLogout}>
+              로그아웃
+            </button>
+          ) : (
+            <Link className="btn btn-primary mx-1" to="/login">
+              로그인
+            </Link>
+          )}
+
           <Link className="btn btn-dark mx-1" to="/admin/add">
             상품 등록
           </Link>
         </div>
+
         <div className="card-body">
           <table className="table table-bordered">
             <thead>

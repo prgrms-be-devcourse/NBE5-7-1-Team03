@@ -1,11 +1,13 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import './OrderPage.css';
+import NavBar from '../components/NavBar';
+import useAuthCheck from '../hooks/useLoginCheck';
 
 function OrderPage() {
   const [products, setProducts] = useState([]);
   const [orderItems, setOrderItems] = useState([]);
+  const { user } = useAuthCheck();
   const [formData, setFormData] = useState({
     email: '',
     address: '',
@@ -22,6 +24,15 @@ function OrderPage() {
         console.log('상품 목록을 불러오는 데 실패했습니다:', err);
       });
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      setFormData(prev => ({
+        ...prev,
+        email: user.email,
+      }));
+    }
+  }, [user]);
 
   const handleAddItem = item => {
     setOrderItems(prev => {
@@ -69,7 +80,7 @@ function OrderPage() {
       .post('/orders', orderPayload, { withCredentials: true })
       .then(res => {
         alert(res.data.message);
-        setFormData({ email: '', address: '', zipcode: '' });
+        setFormData({ address: '', zipcode: '' });
         setOrderItems([]);
         axios
           .get('/items')
@@ -81,19 +92,9 @@ function OrderPage() {
 
   return (
     <div className="container mt-5">
-      <h2 className="text-center mb-4">Grids & Circle</h2>
+      <h2 className="text-center mt-5 mb-3 fw-bold text-primary fs-2">Grids & Circle</h2>
       <div className="card">
-        <div className="card-header">
-          <Link className="btn btn-secondary mx-1" to="/">
-            홈 화면
-          </Link>
-          <Link className="btn btn-primary mx-1" to="/login">
-            로그인
-          </Link>
-          <Link className="btn btn-primary mx-1" to="/signup">
-            회원 가입
-          </Link>
-        </div>
+        <NavBar />
       </div>
       <div className="row">
         <div className="col-md-7">
@@ -152,7 +153,7 @@ function OrderPage() {
               placeholder="이메일"
               required
               value={formData.email}
-              onChange={e => setFormData({ ...formData, email: e.target.value })}
+              readOnly
             />
             <input
               className="form-control mb-2"

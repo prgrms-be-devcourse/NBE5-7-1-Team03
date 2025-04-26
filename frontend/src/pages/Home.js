@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuthCheck from '../hooks/useLoginCheck';
 import axios from 'axios';
+import coffee_bean from '../image/coffee-beans.png';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -31,41 +32,37 @@ export default function Home() {
   return (
     <div className="container p-5 text-center">
       <div className="card style={{ height: '100vh' }}">
-        <div className="card-header">
-          <h2 className="text-center mt-5 mb-3">GC Coffee</h2>
+        <div className="card-header pb-5">
+          <h2 className="text-center mt-5 mb-3 fw-bold text-primary fs-1">GC Coffee</h2>
+          <img src={coffee_bean} alt="커피 빈" style={{ width: '100px', height: '100px', objectFit: 'cover' }} />
         </div>
         <div className="card-body d-flex flex-column justify-content-center align-items-center p-4">
-          <p>
-            <Link to={`/admin`} className="btn btn-secondary mt-5 mb-3 px-4 py-2">
-              관리자 페이지
+          <Link to={`/admin`} className="btn btn-secondary px-4 py-2 mb-3 w-25">
+            관리자 페이지
+          </Link>
+          {isLogin ? (
+            <Link to={`/my-orders`} className="btn btn-secondary px-4 py-2 mb-3 w-25">
+              마이 페이지
             </Link>
-          </p>
-          <p>
-            <Link to={`/signup`} className="btn btn-secondary px-4 py-2">
+          ) : (
+            <Link to={`/signup`} className="btn btn-secondary px-4 py-2 mb-3 w-25">
               회원 가입
             </Link>
-          </p>
-          <div>
-            {isLogin ? (
-              <p>
-                <Link onClick={handleLogout} className="btn btn-secondary px-4 py-2">
-                  로그아웃
-                </Link>
-              </p>
-            ) : (
-              // <a href="/login">로그인</a>
-              <p>
-                <Link to={`/login`} className="btn btn-primary px-4 py-2">
-                  로그인
-                </Link>
-              </p>
-            )}
-          </div>
-          <p>
-            <Link to={`/order`} className="btn btn-dark px-4 py-2">
-              커피 주문하기
+          )}
+          {isLogin ? (
+            <Link onClick={handleLogout} className="btn btn-secondary px-4 py-2 mb-3 w-25">
+              로그아웃
             </Link>
-          </p>
+          ) : (
+            // <a href="/login">로그인</a>
+
+            <Link to={`/login`} className="btn btn-secondary px-4 py-2 mb-3 w-25">
+              로그인
+            </Link>
+          )}
+          <Link to={`/order`} className="btn btn-dark px-4 py-2 mb-3 w-25">
+            커피 주문하기
+          </Link>
         </div>
       </div>
     </div>
