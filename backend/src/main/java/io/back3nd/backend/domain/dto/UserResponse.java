@@ -1,6 +1,5 @@
 package io.back3nd.backend.domain.dto;
 
-import io.back3nd.backend.domain.entity.Orders;
 import io.back3nd.backend.domain.entity.Role;
 import lombok.Builder;
 import lombok.Data;
@@ -14,13 +13,15 @@ import java.util.List;
 @NoArgsConstructor
 public class UserResponse {
 
+    private String nickname;
     private String email;
     private Role role;
     private LocalDateTime createdAt;
-    private List<Orders> orders = new ArrayList<>();
+    private List<OrderUpdateResponse> orders = new ArrayList<>();
 
     @Builder
-    public UserResponse(String email, Role role, LocalDateTime createdAt, List<Orders> orders) {
+    public UserResponse(String nickname, String email, Role role, LocalDateTime createdAt, List<OrderUpdateResponse> orders) {
+        this.nickname = nickname;
         this.email = email;
         this.role = role;
         this.createdAt = createdAt;

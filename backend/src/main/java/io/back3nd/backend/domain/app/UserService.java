@@ -1,6 +1,7 @@
 package io.back3nd.backend.domain.app;
 
 import io.back3nd.backend.domain.dao.UsersRepository;
+import io.back3nd.backend.domain.dto.OrderUpdateResponse;
 import io.back3nd.backend.domain.dto.SignUpRequest;
 import io.back3nd.backend.domain.dto.UserResponse;
 import io.back3nd.backend.domain.entity.Users;
@@ -10,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -36,11 +39,17 @@ public class UserService {
                 () -> new CustomException("일치하는 사용자 정보가 없습니다.")
         );
 
+        List<OrderUpdateResponse> orders = findUser.getOrders().stream()
+                .map(OrderUpdateResponse::new)
+                .toList();
+
+
         return UserResponse.builder()
+                .nickname(findUser.getNickname())
                 .email(findUser.getEmail())
                 .role(findUser.getRole())
                 .createdAt(findUser.getCreatedAt())
-                .orders(findUser.getOrders())
+                .orders(orders)
                 .build();
     }
 

@@ -1,5 +1,6 @@
 package io.back3nd.backend.domain.entity;
 
+import io.back3nd.backend.domain.dto.OrderUpdateRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -50,4 +51,10 @@ public class Orders {
         this.address = address;
         this.zipcode = zipcode;
     }
+
+    public void updateInfo(OrderUpdateRequest orderUpdateRequest) {
+        this.address = orderUpdateRequest.getAddress();
+        this.zipcode = orderUpdateRequest.getZipCode();
+    }
+
 }
