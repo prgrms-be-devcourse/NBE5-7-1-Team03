@@ -42,8 +42,9 @@ export default function ItemUpdate() {
     axios
       .put(`/items/${id}`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+          'Content-Type': 'multipart/form-data',
+        },
+        withCredentials: true,
       })
       .then(() => {
         alert('상품이 수정되었습니다');
@@ -101,15 +102,9 @@ export default function ItemUpdate() {
               />
             </div>
 
-            <div className='form-group'>
-                <label className="form-label">상품 이미지</label>
-                <input
-                  type="file" 
-                  name="image"
-                  className="form-control"
-                  onChange={handleImageChange}
-                  required
-                />
+            <div className="form-group">
+              <label className="form-label">상품 이미지</label>
+              <input type="file" name="image" className="form-control" onChange={handleImageChange} required />
             </div>
 
             <div className="text-center mt-3">

@@ -45,7 +45,12 @@ public class SecurityConfig {
                         })
                 )
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/"))
+                        .logoutUrl("/logout")
+                        .logoutSuccessHandler((request, response, authentication) -> {
+                            response.setStatus(HttpServletResponse.SC_OK);
+                        })
+                        .logoutSuccessUrl("/")
+                )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET, "/items/").permitAll()
                         .requestMatchers(HttpMethod.POST, "/items").hasAuthority(Role.ADMIN.name())

@@ -11,9 +11,13 @@ export default function ItemList() {
   }, []);
 
   const fetchItemList = () => {
-    axios.get('/items').then(response => {
-      setItemList(response.data.response);
-    });
+    axios
+      .get('/items', {
+        withCredentials: true,
+      })
+      .then(response => {
+        setItemList(response.data.response);
+      });
   };
 
   const handleDeleteConfirm = id => {
