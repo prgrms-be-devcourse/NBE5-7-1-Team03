@@ -7,7 +7,7 @@ export default function ItemAdd() {
   const [form, setForm] = useState({
     name: '',
     price: '',
-    stock: ''
+    stock: '',
   });
   const [image, setImage] = useState(null);
 
@@ -39,6 +39,7 @@ export default function ItemAdd() {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        withCredentials: true,
       })
       .then(() => {
         alert('상품이 등록되었습니다!');
