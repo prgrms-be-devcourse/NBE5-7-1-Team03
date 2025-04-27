@@ -135,8 +135,7 @@ public class OrderService {
         orders.updateInfo(orderUpdateRequest);
     }
 
-    //@Scheduled(cron = "0 0 14 * * *", zone = "Asia/Seoul")
-    @Scheduled(cron = "0 * * * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "0 0 14 * * *", zone = "Asia/Seoul")
     public void updateOrdersStatusToShipping() {
         LocalDate yesterday = LocalDate.now().minusDays(1);
 
