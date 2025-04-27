@@ -52,10 +52,10 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/")
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.GET, "/items/").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/items").hasAuthority(Role.ADMIN.name())
-                        .requestMatchers(HttpMethod.PUT, "/items/").hasAuthority(Role.ADMIN.name())
-                        .requestMatchers(HttpMethod.DELETE, "/items/").hasAuthority(Role.ADMIN.name())
+                        .requestMatchers(HttpMethod.GET, "/items/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/items/**").hasAuthority(Role.ADMIN.name())
+                        .requestMatchers(HttpMethod.PUT, "/items/**").hasAuthority(Role.ADMIN.name())
+                        .requestMatchers(HttpMethod.DELETE, "/items/**").hasAuthority(Role.ADMIN.name())
                         .anyRequest().permitAll()
                 )
                 .build();
