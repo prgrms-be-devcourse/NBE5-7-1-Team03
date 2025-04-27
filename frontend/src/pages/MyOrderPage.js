@@ -10,6 +10,7 @@ function MyOrdersPage() {
   const [order, setOrder] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [editForm, setEditForm] = useState({ address: '', zipCode: '' });
+  const [filterStatus, setFilterStatus] = useState('ALL'); // ⭐ 필터 상태 추가
 
   useEffect(() => {
     axios
@@ -92,6 +93,11 @@ function MyOrdersPage() {
     }
   };
 
+  // ⭐ 주문 필터링
+  const filteredOrders = filterStatus === 'ALL'
+  ? orders
+  : orders.filter(order => order.status === filterStatus);
+
   if (!user) return <div>로딩 중...</div>;
 
   return (
@@ -99,9 +105,25 @@ function MyOrdersPage() {
       <div className="card">
         <NavBar />
       </div>
-      <h3>{user.nickname} 님의 주문 목록</h3>
-      {orders.length === 0 && <p>주문 내역이 없습니다.</p>}
-      {orders.map(order => (
+      <h3 className='mt-3'>{user.nickname} 님의 주문 목록</h3>
+
+      {/* ⭐ 드롭다운 추가 */}
+      <div className="d-flex justify-content-end mb-3">
+        <select
+          className="form-select w-auto"
+          value={filterStatus}
+          onChange={(e) => setFilterStatus(e.target.value)}
+        >
+          <option value="ALL">전체 보기</option>
+          <option value="RECEIVED">상품 준비중</option>
+          <option value="SHIPPING">배송중</option>
+          <option value="COMPLETED">배송 완료</option>
+          <option value="CANCELLED">주문 취소</option>
+        </select>
+      </div>
+
+      {filteredOrders.length === 0 && <p>주문 내역이 없습니다.</p>}
+      {filteredOrders.map(order => (
         <div key={order.id} className="border p-3 mb-4">
           <p className='fw-bold'>주문번호: {order.id}</p>
           <p>주문일시: {new Date(order.createdAt).toLocaleString()}</p>

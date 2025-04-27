@@ -7,6 +7,8 @@ export default function ItemUpdate() {
   const navigate = useNavigate();
   const [item, setItem] = useState([]);
   const [image, setImage] = useState(null);
+  const [keepExistingImage, setKeepExistingImage] = useState(true); // ✅ 체크박스 상태 추가
+
 
   useEffect(() => {
     axios.get(`/items/${id}`).then(response => {
@@ -28,6 +30,13 @@ export default function ItemUpdate() {
     setImage(e.target.files[0]);
   };
 
+  const handleCheckboxChange = () => {
+    setKeepExistingImage(prev => !prev);
+    if (!keepExistingImage) {
+      setImage(null); // 체크박스를 다시 체크하면 업로드할 파일 초기화
+    }
+  };
+
   const handleSubmit = e => {
     e.preventDefault();
 
@@ -37,7 +46,11 @@ export default function ItemUpdate() {
     });
 
     formData.append('item', jsonBlob);
-    formData.append('image', image);
+
+    // ✅ 기존 이미지를 유지하지 않을 때만 image를 추가
+    if (!keepExistingImage && image) {
+      formData.append('image', image);
+    }
 
     axios
       .put(`/items/${id}`, formData, {
@@ -81,7 +94,7 @@ export default function ItemUpdate() {
             <div className="form-group">
               <label className="form-label">가격</label>
               <input
-                type="text"
+                type="number"
                 name="price"
                 className="form-control"
                 value={item.price}
@@ -104,7 +117,20 @@ export default function ItemUpdate() {
 
             <div className="form-group">
               <label className="form-label">상품 이미지</label>
-              <input type="file" name="image" className="form-control" onChange={handleImageChange} required />
+              <div className="form-check mb-2">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  id="keepImage"
+                  checked={keepExistingImage}
+                  onChange={handleCheckboxChange}
+                />
+                <label htmlFor="keepImage" className="form-check-label">
+                  기존 이미지를 유지
+                </label>
+              </div>
+
+              <input type="file" name="image" className="form-control" onChange={handleImageChange} disabled={keepExistingImage} required/>
             </div>
 
             <div className="text-center mt-3">

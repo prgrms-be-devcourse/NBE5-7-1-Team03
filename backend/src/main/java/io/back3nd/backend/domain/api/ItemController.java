@@ -62,10 +62,14 @@ public class ItemController {
     @PutMapping(path="{itemId}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<CommonResponse<Object>> updateItem(@PathVariable Long itemId,
                                                              @RequestPart("item") ItemRequest itemRequest,
-                                                             @RequestPart("image") MultipartFile image) throws IOException {
+                                                             @RequestPart(value="image", required = false) MultipartFile image) throws IOException {
 
-        ImageFiles imageFile = imageFileService.storeFile(image);
-        itemService.updateItem(itemId, itemRequest, imageFile);
+        if(image != null) {
+            ImageFiles imageFile = imageFileService.storeFile(image);
+            itemService.updateItem(itemId, itemRequest, imageFile);
+        }else{
+            itemService.updateItem(itemId, itemRequest);
+        }
 
         return ResponseEntity.status(ITEM_UPDATED.getStatus())
                 .body(CommonResponse.from(ITEM_UPDATED.getMessage()));
