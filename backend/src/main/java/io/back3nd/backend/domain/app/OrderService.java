@@ -9,9 +9,11 @@ import io.back3nd.backend.domain.entity.*;
 import io.back3nd.backend.global.exception.InvalidOrderException;
 import io.back3nd.backend.global.exception.InvalidOrderStateException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -132,6 +134,25 @@ public class OrderService {
         checkValidUpdateInfo(orderUpdateRequest);
         orders.updateInfo(orderUpdateRequest);
     }
+
+    @Scheduled(cron = "0 0 14 * * *", zone = "Asia/Seoul")
+    public void updateOrdersStatusToShipping() {
+        LocalDate yesterday = LocalDate.now().minusDays(1);
+
+        LocalDateTime startOfYesterday = yesterday.atStartOfDay();
+        LocalDateTime endOfYesterday = yesterday.atTime(23, 59, 59, 999_999_999);
+
+        List<Orders> ordersList = ordersRepository.findByStatusAndCreatedAt(
+                Status.RECEIVED,
+                startOfYesterday,
+                endOfYesterday
+        );
+
+        for (Orders order : ordersList) {
+            order.setStatus(Status.SHIPPING);
+        }
+    }
+
 
 
 }
