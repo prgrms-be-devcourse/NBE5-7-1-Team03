@@ -31,12 +31,19 @@ export default function SignUp() {
       .then(() => {
         alert('회원가입이 완료되었습니다!');
         navigate('/');
+      })
+      .catch(error => {
+        if (error.response && error.response.data && error.response.data.message) {
+          alert(error.response.data.message);
+        } else {
+          alert('알 수 없는 오류가 발생했습니다.');
+        }
       });
   };
 
   return (
     <div className="container">
-      <h2 className="text-center mt-5 mb-3 fw-bold text-primary fs-2">회원 가입</h2>
+      <h2 className="text-center mt-5 mb-3 fw-bold text-body fs-2">회원 가입</h2>
       <div className="card">
         <div className="card-header">
           <Link className="btn btn-secondary mx-1" to="/">

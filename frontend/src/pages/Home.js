@@ -33,7 +33,7 @@ export default function Home() {
     <div className="container p-5 text-center">
       <div className="card style={{ height: '100vh' }}">
         <div className="card-header pb-5">
-          <h2 className="text-center mt-5 mb-3 fw-bold text-primary fs-1">GC Coffee</h2>
+          <h2 className="text-center mt-5 mb-3 fw-bold text-body fs-1">GC Coffee</h2>
           <img src={coffee_bean} alt="커피 빈" style={{ width: '100px', height: '100px', objectFit: 'cover' }} />
         </div>
         <div className="card-body d-flex flex-column justify-content-center align-items-center p-4">
@@ -50,7 +50,7 @@ export default function Home() {
             </Link>
           )}
           {isLogin ? (
-            <Link onClick={handleLogout} className="btn btn-secondary px-4 py-2 mb-3 w-25">
+            <Link onClick={handleLogout} className="btn btn-danger px-4 py-2 mb-3 w-25">
               로그아웃
             </Link>
           ) : (
