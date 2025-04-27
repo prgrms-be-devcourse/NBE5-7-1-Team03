@@ -32,7 +32,7 @@ export default function Login() {
         navigate('/');
       })
       .catch(error => {
-        alert('로그인에 실패하였습니다.');
+        alert('올바르지 않은 아이디 혹은 비밀번호입니다.');
       });
   };
 
