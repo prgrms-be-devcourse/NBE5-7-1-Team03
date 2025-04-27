@@ -81,6 +81,10 @@ public class OrderService {
     }
 
     public OrderResponse doOrder(OrderRequest orderRequest, Users user) {
+        if(orderRequest.getOrderItems().isEmpty()){
+            throw new InvalidOrderException("주문할 상품을 선택해주세요.");
+        }
+
         List<OrderItems> orderItems = orderRequest.getOrderItems().stream().map(req -> {
             Items item = itemsRepository.findById(req.getItemId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이템 번호 입니다."));
             item.decreaseStock(req.getQuantity());
@@ -120,6 +124,11 @@ public class OrderService {
                 .orElseThrow(() -> new NoSuchElementException("존재하지 않는 주문입니다."));
 
         checkOrderState(orders);
+
+        //재고 원복
+        for (OrderItems orderItem : orders.getOrderItems()) {
+            orderItem.getItem().increaseStock(orderItem.getQuantity());
+        }
 
         orders.setStatus(Status.CANCELLED);
         orders.setDeletedAt(LocalDateTime.now());

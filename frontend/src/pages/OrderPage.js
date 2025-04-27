@@ -42,7 +42,7 @@ function OrderPage() {
         if (found.quantity < targetStock) {
           return prev.map(i => (i.itemId === item.id ? { ...i, quantity: i.quantity + 1 } : i));
         } else {
-          alert('제고를 초과할 수 없습니다.');
+          alert('재고를 초과할 수 없습니다.');
           return prev;
         }
       } else {
@@ -60,8 +60,10 @@ function OrderPage() {
         } else {
           return prev.filter(i => i.itemId !== item.id);
         }
+      }else{
+        alert('해당 상품이 장바구니에 추가되지 않았습니다.');
+        return prev;
       }
-      return prev;
     });
   };
 
@@ -87,12 +89,19 @@ function OrderPage() {
           .then(res => setProducts(res.data.response))
           .catch(err => console.log('상품 다시 불러오기 실패:', err));
       })
-      .catch(err => console.log('주문 실패:', err));
+      .catch(err => {
+        console.log('주문 실패:', err);
+        if (err.response && err.response.data && err.response.data.message) {
+          alert(err.response.data.message);
+        } else {
+          alert('알 수 없는 오류가 발생했습니다.');
+        }
+      });
   };
 
   return (
     <div className="container mt-5">
-      <h2 className="text-center mt-5 mb-3 fw-bold text-primary fs-2">Grids & Circle</h2>
+      <h2 className="text-center mt-5 mb-3 fw-bold text-body fs-2">Grids & Circle</h2>
       <div className="card">
         <NavBar />
       </div>
@@ -104,7 +113,7 @@ function OrderPage() {
           <div className="card p-3">
             {products &&
               products.map(product => (
-                <div key={product.id} className="d-flex align-items-center justify-content-between border-bottom py-2">
+                <div key={product.id} className={`d-flex align-items-center justify-content-between border-bottom py-2 ${product.stock <= 0 ? 'opacity-50' : ''}`}>
                   <div className="d-flex align-items-center gap-3">
                     <img
                       src={`http://localhost:8080/items/images/${product.storeFileName}`}
@@ -121,14 +130,26 @@ function OrderPage() {
                     </div>
                   </div>
                   <div className="d-flex gap-2">
-                    <button className="btn btn-primary btn-sm" onClick={() => handleAddItem(product)}>
-                      추가
-                    </button>
-                    <button className="btn btn-danger btn-sm" onClick={() => handleRemoveItem(product)}>
-                      삭제
-                    </button>
+                    {product.stock > 0 ? (
+                      <>
+                        <button
+                          className="btn btn-primary btn-sm"
+                          onClick={() => handleAddItem(product)}
+                        >
+                          추가
+                        </button>
+                        <button
+                          className="btn btn-danger btn-sm"
+                          onClick={() => handleRemoveItem(product)}
+                        >
+                          삭제
+                        </button>
+                      </>
+                    ) : (
+                      <span className="text-danger fw-bold">품절</span>
+                    )}
+                    </div>
                   </div>
-                </div>
               ))}
           </div>
         </div>

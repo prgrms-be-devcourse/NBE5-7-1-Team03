@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { deleteItem } from './api';
@@ -7,12 +7,22 @@ import { useNavigate } from 'react-router-dom'; // ✅ 추가
 
 export default function ItemList() {
   const [itemList, setItemList] = useState([]);
-  const { isLogin, loading } = useAuthCheck(); // ✅ 추가
+  const { isLogin, loading, user } = useAuthCheck(); // ✅ 추가
   const navigate = useNavigate(); // ✅ 추가
+  const blocked = useRef(false);
 
   useEffect(() => {
-    fetchItemList();
-  }, []);
+    if(loading) return;
+    if(blocked.current) return;
+
+    if(user===null || user.role !== 'ADMIN'){
+      blocked.current=true;
+      alert('관리자만 접근할 수 있습니다.');
+      navigate('/');
+    }else{
+      fetchItemList();
+    }
+  }, [user, loading]);
 
   const fetchItemList = () => {
     axios
@@ -47,7 +57,7 @@ export default function ItemList() {
 
   return (
     <div className="container">
-      <h2 className="text-center mt-5 mb-3 fw-bold text-primary">메뉴 관리</h2>
+      <h2 className="text-center mt-5 mb-3 fw-bold text-body">메뉴 관리</h2>
       <div className="card">
         <div className="card-header">
           <Link className="btn btn-secondary mx-1" to="/">
