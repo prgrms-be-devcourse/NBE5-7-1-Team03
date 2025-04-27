@@ -94,7 +94,7 @@ export default function ItemUpdate() {
             <div className="form-group">
               <label className="form-label">가격</label>
               <input
-                type="text"
+                type="number"
                 name="price"
                 className="form-control"
                 value={item.price}
