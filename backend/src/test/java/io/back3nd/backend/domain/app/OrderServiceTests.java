@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -142,4 +143,28 @@ class OrderServiceTests {
 
         assertThat(cancelled.getStatus()).isEqualTo(Status.CANCELLED);
     }
+
+    @Test
+    @DisplayName("스케줄러 테스트")
+    void scheduledUpdateOrdersStatusToShippingTest() throws Exception {
+        OrderRequest request = new OrderRequest(
+                "scheduler@example.com",
+                "서울특별시 테스트구",
+                "11111",
+                List.of(
+                        new OrderRequest.OrderItemRequest(1L, 1)
+                )
+        );
+        OrderResponse created = orderService.doOrder(request, testUser);
+
+        Orders order = ordersRepository.findById(created.getId()).orElseThrow();
+        order.setCreatedAt(LocalDate.now().minusDays(1).atTime(23, 50));
+        ordersRepository.save(order);
+
+        orderService.updateOrdersStatusToShipping();
+
+        Orders updatedOrder = ordersRepository.findById(created.getId()).orElseThrow();
+        assertThat(updatedOrder.getStatus()).isEqualTo(Status.SHIPPING);
+    }
+
 }
