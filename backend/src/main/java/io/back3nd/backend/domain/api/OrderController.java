@@ -8,6 +8,7 @@ import io.back3nd.backend.domain.dto.OrderUpdateRequest;
 import io.back3nd.backend.domain.dto.UserDetailsImpl;
 import io.back3nd.backend.domain.entity.Users;
 import io.back3nd.backend.global.common.CommonResponse;
+import io.back3nd.backend.global.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -27,6 +28,10 @@ public class OrderController {
     public ResponseEntity<CommonResponse<OrderResponse>> doOrder(
             @RequestBody OrderRequest orderRequest,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        if(userDetails == null) {
+            throw new CustomException("로그인을 해주세요");
+        }
 
         Users user = userDetails.getUser();
 
