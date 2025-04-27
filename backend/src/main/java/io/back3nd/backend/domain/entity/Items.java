@@ -48,6 +48,13 @@ public class Items {
         this.updatedAt = LocalDateTime.now();
     }
 
+    public void updateItemWithoutImage(ItemRequest itemRequest) {
+        this.name = itemRequest.getName();
+        this.price = itemRequest.getPrice();
+        this.stock = itemRequest.getStock();
+        this.updatedAt = LocalDateTime.now();
+    }
+
     public void decreaseStock(int quantity){
         if(this.stock < quantity ){
             throw new IllegalArgumentException("재고가 부족합니다.");
