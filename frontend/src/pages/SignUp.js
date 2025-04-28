@@ -70,7 +70,7 @@ export default function SignUp() {
             <div className="form-group">
               <label className="form-label">이메일</label>
               <input
-                type="text"
+                type="email"
                 name="email"
                 className="form-control"
                 value={formData.email}
