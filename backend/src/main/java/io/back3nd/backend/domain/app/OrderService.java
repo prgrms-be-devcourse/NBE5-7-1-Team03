@@ -81,9 +81,11 @@ public class OrderService {
     }
 
     public OrderResponse doOrder(OrderRequest orderRequest, Users user) {
-        if(orderRequest.getOrderItems().isEmpty()){
+        if (orderRequest.getOrderItems().isEmpty()) {
             throw new InvalidOrderException("주문할 상품을 선택해주세요.");
         }
+
+        checkEssentialInput(orderRequest.getEmail(), orderRequest.getAddress(), orderRequest.getZipcode());
 
         List<OrderItems> orderItems = orderRequest.getOrderItems().stream().map(req -> {
             Items item = itemsRepository.findById(req.getItemId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이템 번호 입니다."));
@@ -161,7 +163,6 @@ public class OrderService {
             order.setStatus(Status.SHIPPING);
         }
     }
-
 
 
 }
