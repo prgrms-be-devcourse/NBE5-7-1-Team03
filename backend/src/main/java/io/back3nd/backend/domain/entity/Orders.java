@@ -33,8 +33,7 @@ public class Orders {
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
-
-    private LocalDateTime updatedAt; //아직 구현하지는 않을 예정
+    private LocalDateTime updatedAt;
 
     private LocalDateTime deletedAt;
 
@@ -55,6 +54,7 @@ public class Orders {
     public void updateInfo(OrderUpdateRequest orderUpdateRequest) {
         this.address = orderUpdateRequest.getAddress();
         this.zipcode = orderUpdateRequest.getZipCode();
+        this.updatedAt = LocalDateTime.now();
     }
 
 }

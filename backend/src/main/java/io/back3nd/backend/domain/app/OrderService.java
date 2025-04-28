@@ -60,22 +60,18 @@ public class OrderService {
 
     private static void checkUpdateAvailable(Orders orders) {
         if (orders.getStatus() == Status.COMPLETED) {
-            System.out.println("11");
             throw new InvalidOrderStateException("이미 배송완료 된 주문입니다.");
         }
         if (orders.getStatus() == Status.CANCELLED) {
-            System.out.println("22");
             throw new InvalidOrderStateException("취소 된 주문입니다.");
         }
     }
 
     private static void checkValidUpdateInfo(OrderUpdateRequest orderUpdateRequest) {
         if (orderUpdateRequest.getAddress() == null || orderUpdateRequest.getZipCode() == null) {
-            System.out.println("1111");
             throw new InvalidOrderException("필수 정보가 없습니다.");
         }
         if (orderUpdateRequest.getAddress().isBlank() || orderUpdateRequest.getZipCode().isBlank()) {
-            System.out.println("1122");
             throw new InvalidOrderException("필수 정보가 없습니다.");
         }
     }
@@ -163,6 +159,4 @@ public class OrderService {
             order.setStatus(Status.SHIPPING);
         }
     }
-
-
 }
