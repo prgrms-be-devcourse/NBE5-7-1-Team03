@@ -1,7 +1,6 @@
 package io.back3nd.backend.domain.api;
 
 import io.back3nd.backend.domain.app.OrderService;
-import io.back3nd.backend.domain.dao.UsersRepository;
 import io.back3nd.backend.domain.dto.OrderRequest;
 import io.back3nd.backend.domain.dto.OrderResponse;
 import io.back3nd.backend.domain.dto.OrderUpdateRequest;
@@ -22,14 +21,13 @@ import static io.back3nd.backend.global.common.StatusCode.*;
 public class OrderController {
 
     private final OrderService orderService;
-    private final UsersRepository usersRepository;
 
     @PostMapping("/orders")
     public ResponseEntity<CommonResponse<OrderResponse>> doOrder(
             @RequestBody OrderRequest orderRequest,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        if(userDetails == null) {
+        if (userDetails == null) {
             throw new CustomException("로그인을 해주세요");
         }
 
