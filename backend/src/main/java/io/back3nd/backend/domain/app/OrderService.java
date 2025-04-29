@@ -142,18 +142,27 @@ public class OrderService {
         orders.updateInfo(orderUpdateRequest);
     }
 
-    @Scheduled(cron = "0 0 14 * * *", zone = "Asia/Seoul")
+//    @Scheduled(cron = "0 0 14 * * *", zone = "Asia/Seoul")
+//    public void updateOrdersStatusToShipping() {
+//        LocalDate yesterday = LocalDate.now().minusDays(1);
+//
+//        LocalDateTime startOfYesterday = yesterday.atStartOfDay();
+//        LocalDateTime endOfYesterday = yesterday.atTime(23, 59, 59, 999_999_999);
+//
+//        List<Orders> ordersList = ordersRepository.findByStatusAndCreatedAtBetween(
+//                Status.RECEIVED,
+//                startOfYesterday,
+//                endOfYesterday
+//        );
+//
+//        for (Orders order : ordersList) {
+//            order.setStatus(Status.SHIPPING);
+//        }
+//    }
+
+    @Scheduled(fixedDelay = 30000)
     public void updateOrdersStatusToShipping() {
-        LocalDate yesterday = LocalDate.now().minusDays(1);
-
-        LocalDateTime startOfYesterday = yesterday.atStartOfDay();
-        LocalDateTime endOfYesterday = yesterday.atTime(23, 59, 59, 999_999_999);
-
-        List<Orders> ordersList = ordersRepository.findByStatusAndCreatedAtBetween(
-                Status.RECEIVED,
-                startOfYesterday,
-                endOfYesterday
-        );
+        List<Orders> ordersList = ordersRepository.findByStatus(Status.RECEIVED);
 
         for (Orders order : ordersList) {
             order.setStatus(Status.SHIPPING);
